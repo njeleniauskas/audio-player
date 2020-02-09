@@ -17,7 +17,7 @@ To properly set up the player you will need to add a link to the core.css file (
 
 ```javascript
 <script type="module">
-	import {AudioPlayer} from './audio-player.js';
+	import AudioPlayer from './audio-player.js';
 
 	const playlist = [
 		{
