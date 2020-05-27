@@ -12,10 +12,12 @@ function getSliderValue(event) {
 	let maxValue = maxBoundary - minBoundary;
 	let value;
 
+
 	if (mouseEvents.some(item => item === event.type)) {
 		coordinate = event.clientX;
 	} else if (touchEvents.some(item => item === event.type)) {
-		coordinate = event.pageX;
+		//android browsers return a touch array, so you must target a single touch point for this to not return NaN/undefined
+		coordinate = event.changedTouches[0].pageX;
 	}
 
 	currentValue = coordinate - minBoundary;
