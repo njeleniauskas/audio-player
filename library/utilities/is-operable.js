@@ -14,7 +14,8 @@ function isOperable(scope, event) {
 		}
 
 		case 'playkey': {
-			if (event.key === ' ' && isValidControl()) {
+			if (event.key === ' ' && isValidControl() ||
+				event.key === 'MediaPlayPause' && isValidControl()) {
 				return true;
 			}
 
