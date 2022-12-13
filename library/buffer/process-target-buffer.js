@@ -17,8 +17,6 @@ async function processTargetBuffer() {
 		let index = db.status.targetBuffer;
 
 		db.status.buffer = 'pending';
-		setAudioData();
-		updateInterface();
 		await assessBufferStatus(thisBuffer);
 
 		if (db.dsp.buffers[index] !== undefined &&

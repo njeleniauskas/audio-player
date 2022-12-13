@@ -1,16 +1,12 @@
 # Audio Player
-*Audio Player, Version 2.0 | Authored by Nikolas Jeleniauskas*
+*Audio Player, Version 2.0 | Authored by Nik Jeleniauskas*
 
 -----
-The following audio player it is built entirely with the Audio API and is written in ES6+ (async/await, modules, etc…). It uses no dependencies.
+The following audio player is built entirely with the Audio API and is written in ES6+ (async/await, modules, etc…). It uses no dependencies.
 
 
 
 # Usage
-When placing the audio container element in your html template, make sure that the container has `aria-live=polite` so that it can properly announce its change from pending to ready state.
-
-
-
 To properly set up the player you will need to add a link to the core.css file (critical CSS), presentational CSS (see below) and a script module at the end of your html file. This module is where the modules are imported, the playlist is defined, and the necessary arguments for the player set: These arguments are the container class for the player, one of three UI configurations (`'minimal', 'basic', 'full'`), and whether the player will loop or not (`true, false`). Beyond this, you may also define a new player template if you wish, otherwise it will default to the first one.
 
 
@@ -49,8 +45,8 @@ Beyond the core CSS, the player will need additional CSS to further control how 
 When operating the player, the following keys may be used for various controls:
 - Play/Pause: `Spacebar`
 - Track Controls: `MediaKeyPrevious`, `MediaKeyNext`
-- Progress: `ArrowLeft` `ArrowRight`
-- Gain Slider: `ArrowLeft` and `ArrowRight`, or `ArrowUp` and `ArrowDown`
+- Progress: `ArrowLeft`, `ArrowRight`, `Home`, and `End`
+- Gain Slider: `ArrowLeft` and `ArrowRight`, `ArrowUp` and `ArrowDown`, or `Home` and `End`
 - Gain Toggle: `M`
 
 
@@ -62,12 +58,14 @@ Throughout the modules, data processing is broken into 3 stages, setting data, u
 
 
 **AudioBufferSourceNode**
-An `AudioBufferSourceNode` can only be started/stopped once. Therefore, any start or restart of a buffer needs to initiate an new source node to operate correctly. Essentially, they need to be treated like temporary instances, rather than a dedicated audio buffer (akin to other music programming environments).
+An `AudioBufferSourceNode` can only be started/stopped once. Therefore, any start or restart of a buffer needs to initiate a new source node to operate correctly. Essentially, they need to be treated like temporary instances, rather than a dedicated audio buffer (akin to other music programming environments).
 
 
 
 **Gain Changes**
-When setting gain changes is is sometimes necessary to explicitly set an intitial value with `SetValueAtTime` before using `exponentialRampToValueAtTime` to the new value to avoid errant audio clicks.
+When setting gain changes it is sometimes necessary to explicitly set an intitial value with `SetValueAtTime` before using `exponentialRampToValueAtTime` to the new value to avoid errant audio clicks.
+
+In addition to this, changing gain at present rapidly induces zipper noise. This may be an API-level problem, but should be eventually investigated.
 
 
 
@@ -77,16 +75,18 @@ It is necessary to clear any document selections when any drag operation is unde
 
 
 **Accessiblity**
-While not extensively tested, the player should be fully accessible to users (aria-labels, keyboard events, etc…).
+The accessibility support of this player robust, and should work for all devices and users.
 
 
 
 **Webkit/iOS/Safari**
-The current implementation of this player is slightly suboptimal as the iOS implementation of the Audio API does not adhere to the W3C standard. As such, there are some very buggy behaviors that exists that needed to be fixed, such as unlocking audio processing at the start of the player.
+The current implementation of this player is slightly suboptimal as the iOS implementation of the Audio API does not adhere to the W3C standard. As such, there are some very buggy behaviors that exist that needed to be fixed, such as unlocking audio processing at the start of the player.
+
+In addition, it only supports iOS13 macOS 10.15 due to pointer events and `touch-action` css.
 
 
 
 # Future Issues to Resolve
-1. A visual indicator that a track is decoding, or in the process of downloading if landed on is needed.
-
-2. At present, changing gain rapidly induces zipper noise. This may be an API-level problem, but should be eventually investigated.
+1. Adding a visual indicator that a track is decoding, or in the process of downloading.
+2. Updating the loading state to include accessibility communications.
+3. Add Media Session API support for broader control support.

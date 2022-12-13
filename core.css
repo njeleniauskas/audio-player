@@ -6,6 +6,7 @@
 	--ap-color-border: rgb(59, 110, 181);
 
 	--ap-font-family: inherit;
+	--ap-border-size: 0.0625rem;
 
 	--ap-s-handle: 0.75rem;
 	--ap-s-slider: 1.5rem;
@@ -28,6 +29,11 @@
 	grid-row: 1;
 	grid-column: 1;
 	width: 100%;
+}
+
+.audio-loader {
+	display: flex;
+	justify-content: center;
 }
 
 .audio-player {
@@ -74,7 +80,7 @@
 	position: relative;
 	top: var(--ap-handle-top);
 	left: var(--ap-handle-left);
-	border: 0.0625rem solid var(--ap-color-border);
+	border: var(--ap-border-size) solid var(--ap-color-border);
 	background-color: var(--ap-color-handle);
 	width: var(--ap-s-handle);
 	height: var(--ap-s-handle);
@@ -87,4 +93,17 @@
 
 .slider:hover .slider_handle {
 	opacity: 1;
+}
+
+.sr-text {
+	position: absolute;
+	height: 1px;
+	width: 1px;
+	clip-path: inset(50%);
+	overflow: hidden;
+	border: 0;
+}
+
+[role=slider] {
+	touch-action: none;
 }

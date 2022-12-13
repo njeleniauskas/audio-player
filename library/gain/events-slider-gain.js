@@ -4,9 +4,10 @@ import processGainStep from './process-gain-step.js';
 import updateGainNodes from './update-gain-nodes.js';
 import canProcessAudio from '../utilities/can-process-audio.js';
 import setSliderData from '../utilities/set-slider-data.js';
+import valueInArray from '../utilities/value-in-array.js';
 
 function observeGainSlider(event) {
-	let events = [];
+	let events =  ['pointermove', 'pointerup'];
 	window.getSelection().removeAllRanges();
 	setAndUpdateGain(event);
 
@@ -16,12 +17,6 @@ function observeGainSlider(event) {
 
 	db.handler.dragEvent = seekGain.bind(this);
 	db.handler.setEvent = commitGain.bind(this);
-
-	if (event.type === 'mousedown') {
-		events = ['mousemove', 'mouseup'];
-	} else if (event.type === 'touchstart') {
-		events = ['touchmove', 'touchend'];
-	}
 
 	db.nodes[db.map.fader].addEventListener(events[0], db.handler.dragEvent);
 	window.addEventListener(events[1], db.handler.setEvent);
@@ -36,32 +31,34 @@ function seekGain(event) {
 }
 
 function commitGain(event) {
-	let events = [];
+	let events = ['pointermove', 'pointerup'];
 	setAndUpdateGain(event);
 
 	if (canProcessAudio()) {
 		processGainStep();
 	}
 
-	if (event.type === 'mouseup') {
-		events = ['mousemove', 'mouseup'];
-	} else if (event.type === 'touchend') {
-		events = ['touchmove', 'touchend'];
-	}
-
 	db.nodes[db.map.fader].removeEventListener(events[0], db.handler.dragEvent);
 	window.removeEventListener(events[1], db.handler.setEvent);
-	db.status.isTouchEvent = false;
 }
 
 
 function nudgeGain(event) {
 	let step = 0.05;
+	let direction = 'forward';
 	let value;
 
-	if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+	if (valueInArray(event.key, ['ArrowLeft', 'ArrowDown', 'Home'])) {
+		direction = 'back';
+	}
+
+	if (event.key === 'Home' || event.key === 'End') {
+		step = 1;
+	}
+
+	if (direction === 'forward') {
 		value = db.data.gain.current + step;
-	} else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+	} else if (direction === 'back') {
 		value = db.data.gain.current - step;
 	}
 

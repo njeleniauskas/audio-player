@@ -4,6 +4,7 @@ import processTimeChange from './process-time-change.js';
 import getSliderValue from '../utilities/get-slider-value.js';
 import setSliderData from '../utilities/set-slider-data.js';
 import canProcessAudio from '../utilities/can-process-audio.js';
+import valueInArray from '../utilities/value-in-array.js';
 
 /* because of the nature of progress changes, this function ensures that any
  * document selection is cleared before a progress change occurs. This
@@ -11,7 +12,7 @@ import canProcessAudio from '../utilities/can-process-audio.js';
  * selection is in the 'drag' state.
  */
 function observeTimeSlider(event) {
-	let events = [];
+	let events = ['pointermove', 'pointerup'];
 	window.getSelection().removeAllRanges();
 
 	if (!db.status.observing) {
@@ -26,12 +27,7 @@ function observeTimeSlider(event) {
 		db.handler.dragEvent = seekTime.bind(this);
 		db.handler.setEvent = commitTime.bind(this);
 
-		if (event.type === 'mousedown') {
-			events = ['mousemove', 'mouseup'];
-		} else if (event.type === 'touchstart') {
-			events = ['touchmove', 'touchend'];
-		}
-
+		//not needed as they are implicitly handled
 		db.nodes[db.map.progress].addEventListener(events[0], db.handler.dragEvent);
 		window.addEventListener(events[1], db.handler.setEvent);
 	}
@@ -45,19 +41,13 @@ function seekTime(event) {
 }
 
 function commitTime(event) {
-	let events = [];
+	let events = ['pointermove', 'pointerup'];
 	let rawValue = getSliderValue(event);
 	setSliderData('progress', rawValue);
 	updateProgressNodes(rawValue);
 
 	if (canProcessAudio() && db.dsp.context.state === 'running') {
 		processTimeChange(rawValue);
-	}
-
-	if (event.type === 'mouseup') {
-		events = ['mousemove', 'mouseup'];
-	} else if (event.type === 'touchend') {
-		events = ['touchmove', 'touchend'];
 	}
 
 	db.nodes[db.map.progress].removeEventListener(events[0], db.handler.dragEvent);
@@ -68,18 +58,27 @@ function commitTime(event) {
 
 function nudgeTime(event) {
 	let step = 5;
+	let direction = 'forward';
 	let elapsed = db.data.buffer.elapsedTime;
 	let length = db.data.buffer.length;
 	let rawValue;
 	let state = db.dsp.context.state;
+	
+	if (valueInArray(event.key, ['ArrowLeft', 'Home'])) {
+		direction = 'back';
+	}
 
-	if (event.key === 'ArrowRight') {
+	if (event.key === 'Home' || event.key === 'End') {
+		step = db.data.buffer.length;
+	}
+
+	if (direction === 'forward') {
 		rawValue = (elapsed + step) / length;
 
 		if (rawValue >= 1) {
 			rawValue = 1;
 		}
-	} else if (event.key === 'ArrowLeft') {
+	} else if (direction === 'back') {
 		rawValue = (elapsed - step) / length;
 
 		if (rawValue <= 0) {

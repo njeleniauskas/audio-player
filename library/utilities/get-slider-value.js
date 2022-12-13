@@ -1,9 +1,7 @@
 import db from '../../config/data.js';
 
 function getSliderValue(event) {
-	const mouseEvents = ['mousedown', 'mousemove', 'mouseup'];
-	const touchEvents = ['touchstart', 'touchmove', 'touchend'];
-	let coordinate;
+	let coordinate = 0;
 	let currentValue;
 	let sliderRect = db.status.targetSlider.getBoundingClientRect();
 	let minBoundary = Math.floor(sliderRect.left);
@@ -12,14 +10,8 @@ function getSliderValue(event) {
 	let maxValue = maxBoundary - minBoundary;
 	let value;
 
-
-	if (mouseEvents.some(item => item === event.type)) {
-		coordinate = event.clientX;
-	} else if (touchEvents.some(item => item === event.type)) {
-		//android browsers return a touch array, so you must target a single touch point for this to not return NaN/undefined
-		coordinate = event.changedTouches[0].pageX;
-	}
-
+	//the new change to event tracking
+	coordinate = event.clientX;
 	currentValue = coordinate - minBoundary;
 
 	if (currentValue <= minValue) {

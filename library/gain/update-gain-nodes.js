@@ -1,5 +1,6 @@
 import db from '../../config/data.js';
 import updateSlider from '../utilities/update-slider.js';
+import updateSliderValues from '../utilities/update-slider-values.js';
 
 function updateGainNodes() {
 	if (db.props.gainOptions !== 'null') {
@@ -8,18 +9,19 @@ function updateGainNodes() {
 		}
 
 		updateGainStatus();
+		updateSliderValues('gain');
 		updateGainSymbol();
 	}
 }
 
 function updateGainStatus() {
-	let string = 'mute';
+	let string = 'Unmute';
 
 	if (db.data.gain.current > 0) {
-		string = 'unmute';
+		string = 'Mute';
 	}
 
-	db.nodes[db.map.gain].setAttribute('aria-label', string);
+	db.nodes[db.map.gainLabel].textContent = string;
 }
 
 function updateGainSymbol() {

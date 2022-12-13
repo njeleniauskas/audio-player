@@ -29,7 +29,8 @@ function constructTemplateOne() {
 		</div>`;
 	}
 
-	controls = `<button class="${className}_controls" ${control}="${db.map.main}" aria-label="play">
+	controls = `<button class="${className}_controls" ${control}="${db.map.main}" aria-labelledby="ap-play">
+		<div id="ap-play" class="sr-text" data-ap-label="main-label">Play Track</div>
 		<svg width="12" height="16" viewBox="0 0 12 16">
 			${db.symbols.play}
 			${db.symbols.pause}
@@ -37,11 +38,20 @@ function constructTemplateOne() {
 	</button>`;
 
 	if (db.props.stepControls) {
+		let tracks = db.data.tracks;
+		let nextStatus = ``;
+
+		if (tracks > 1) {
+			nextStatus = `aria-disabled="false"`;
+		}
+
 		stepControls = `<div>
-			<button ${control}="${db.map.previous}" disabled>
+			<button ${control}="${db.map.previous}" aria-disabled="true" aria-labelledby="ap-prev">
+				<div id="ap-prev" class="sr-text">Previous Track</div>
 				${db.symbols.prev}
-			</button>
-			<button ${control}="${db.map.next}">
+				</button>
+			<button ${control}="${db.map.next}" ${nextStatus} aria-labelledby="ap-next">
+				<div id="ap-next" class="sr-text">Next Track</div>
 				${db.symbols.next}
 			</button>
 		</div>`;
@@ -54,38 +64,59 @@ function constructTemplateOne() {
 
 		if (db.props.progressOptions == 'slider') {
 			timeDivider = ``;
-			progressBar = `<div class="slider slider--progress" tabindex="0" ${control}="${db.map.progress}" aria-label="current progress">
-				<div class="slider_track">
-					<div class="slider_progress" ${status}="${db.map.progressCurrent}" style="transform: scaleX(0)"></div>
-					<div class="slider_handle" ${status}="${db.map.progressHandle}"></div>
-				</div>
-			</div>`;
+			progressBar = `<div
+				class="slider slider--progress" 
+				tabindex="0" 
+				${control}="${db.map.progress}" 
+				role="slider"
+				aria-valuemin="0"
+				aria-valuemax="0"
+				aria-valuenow="0"
+				aria-valuetext="0 of 0 seconds played"
+				aria-labelledby="ap-progress">
+					<div class="slider_track">
+						<div class="slider_progress" ${status}="${db.map.progressCurrent}" style="transform: scaleX(0)"></div>
+						<div class="slider_handle" ${status}="${db.map.progressHandle}"></div>
+					</div>
+				</div>`;
 		}
 	}
 
 	progress = `<div class="${className}_progress">
 		${timeCurrent}
+		<div id="ap-progress" class="sr-text">Current Progress</div>
 		${progressBar}
 		${timeDivider}
 		${timeTotal}
 	</div>`;
 
 	if (db.props.gainOptions !== 'none') {
-		volumeControl = `<button ${control}="${db.map.gain}" aria-label="mute">
+		volumeControl = `<button ${control}="${db.map.gain}" aria-labeledby="ap-mute">
+			<div id="ap-mute" class="sr-text" data-ap-label="gain-label">Mute</div>
 			${db.symbols.gain}
 		</button>`;
 
 		if (db.props.gainOptions === 'slider') {
-			volumeSlider = `<div class="slider slider--gain" tabindex="0" ${control}="${db.map.fader}" aria-label="current volume">
-				<div class="slider_track">
-					<div class="slider_progress" ${status}="${db.map.faderCurrent}" style="transform: scaleX(1)"></div>
-					<div class="slider_handle" ${status}="${db.map.faderHandle}"></div>
-				</div>
-			</div>`;
+			volumeSlider = `<div 
+				class="slider slider--gain" 
+				tabindex="0" 
+				${control}="${db.map.fader}" 
+				role="slider"
+				aria-valuemin="0"
+				aria-valuemax="1"
+				aria-valuenow="1"
+				aria-valuetext="Volume 100%"
+				aria-labelledby="ap-volume">
+					<div class="slider_track">
+						<div class="slider_progress" ${status}="${db.map.faderCurrent}" style="transform: scaleX(1)"></div>
+						<div class="slider_handle" ${status}="${db.map.faderHandle}"></div>
+					</div>
+				</div>`;
 		}
 	}
 
 	volume = `<div class="${className}_gain">
+		<div id="ap-volume" class="sr-text">Current Volume</div>
 		${volumeSlider}
 		${volumeControl}
 	</div>`;

@@ -33,7 +33,7 @@ function unlockWebkitAudioContext() {
 	}
 
 	const DOM = document.body;
-	const events = ['touchstart','touchend', 'mousedown','keydown'];
+	const events = ['pointerdown', 'pointerup', 'touchstart','touchend', 'mousedown','keydown'];
 
 	events.forEach((event) => {
 		DOM.addEventListener(event, unlock, false);

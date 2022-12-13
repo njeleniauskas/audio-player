@@ -23,8 +23,10 @@ function isOperable(scope, event) {
 		}
 
 		case 'step': {
-			if (db.dsp.context === undefined ||
-				db.dsp.context !== undefined && db.dsp.source !== null) {
+			let disabled = event.target.closest('[data-ap-control]').getAttribute('aria-disabled');
+
+			if (disabled === 'false' && db.dsp.context === undefined ||
+				disabled === 'false' && db.dsp.context !== undefined && db.dsp.source !== null) {
 				return true;
 			}
 
@@ -47,17 +49,8 @@ function isOperable(scope, event) {
 			return false;
 		}
 
-		case 'progress-touch': {
+		case 'progress-slider': {
 			if (event.target.closest('.slider--progress')) {
-				return true;
-			}
-
-			return false;
-		}
-
-		case 'progress-mouse': {
-			if (db.dsp.buffers[db.status.targetBuffer] !== undefined &&
-				!db.status.isTouchEvent) {
 				return true;
 			}
 
@@ -73,7 +66,6 @@ function isOperable(scope, event) {
 			return false;
 		}
 
-
 		case 'gain-key': {
 			if (event.key === 'm') {
 				return true;
@@ -82,16 +74,8 @@ function isOperable(scope, event) {
 			return false;
 		}
 
-		case 'gain-touch': {
+		case 'gain-slider': {
 			if (event.target.closest('.slider--gain')) {
-				return true;
-			}
-
-			return false;
-		}
-
-		case 'gain-mouse': {
-			if (!db.status.isTouchEvent) {
 				return true;
 			}
 

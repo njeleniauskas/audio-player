@@ -18,6 +18,7 @@ function decodeAudioSource(index) {
 			console.error('There was a problem decoding the buffer:', error );
 		});
 
+		//the optimal solution, once ios catches up
 		/*db.dsp.context.decodeAudioData(arrayBuffer)
 			.then((decodedBuffer) => {
 				db.dsp.buffers[index] = decodedBuffer;

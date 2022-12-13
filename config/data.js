@@ -21,6 +21,7 @@ const db = {
 			prefix: 'data-ap',
 			status: 'data-ap-status',
 			control: 'data-ap-control',
+			label: 'data-ap-label',
 			symbol: 'data-ap-symbol',
 			hidden: 'data-hidden',
 		},
@@ -52,6 +53,10 @@ const db = {
 		progress: 'progress',
 		fader: 'fader',
 		gain: 'gain',
+
+		//control labels
+		mainLabel: 'main-label',
+		gainLabel: 'gain-label',
 
 		//symbol nodes
 		play: 'play',
@@ -119,7 +124,7 @@ const db = {
 		changingTrack: false,
 		stepping: false,
 		observing: false,
-		isTouchEvent: false,
+		//isTouchEvent: false,
 	}
 };
 

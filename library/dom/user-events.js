@@ -2,9 +2,9 @@ import db from '../../config/data.js';
 import isOperable from '../utilities/is-operable.js';
 import changePlayState from '../playstate/events.js';
 import changeTrack from '../track/events.js';
-import {observeTimeSlider, nudgeTime} from '../progress/events-slider.js';
+import {observeTimeSlider, nudgeTime} from '../progress/events-slider-progress.js';
 import toggleGain from '../gain/events-toggle.js';
-import {observeGainSlider, nudgeGain} from '../gain/events-slider.js';
+import {observeGainSlider, nudgeGain} from '../gain/events-slider-gain.js';
 
 function assignEventListeners() {
 	addPlayStateEvents();
@@ -29,14 +29,14 @@ function addPlayStateEvents() {
 
 function addStepControlEvents() {
 	if (db.props.stepControls) {
-		db.nodes[db.map.previous].addEventListener('click', () => {
-			if (isOperable('step')) {
+		db.nodes[db.map.previous].addEventListener('click', (event) => {
+			if (isOperable('step', event)) {
 				changeTrack('previous');
 			}
 		});
 
-		db.nodes[db.map.next].addEventListener('click', () => {
-			if (isOperable('step')) {
+		db.nodes[db.map.next].addEventListener('click', (event) => {
+			if (isOperable('step', event)) {
 				changeTrack('next');
 			}
 		});
@@ -52,24 +52,20 @@ function addStepControlEvents() {
 }
 
 function addProgressEvents() {
+	const node = db.nodes[db.map.progress];
+	
 	if (db.props.progressOptions === 'slider') {
-		db.nodes[db.map.progress].addEventListener('touchstart', (event) => {
-			db.status.isTouchEvent = true;
-			if (isOperable('progress-touch', event)) {
-				db.status.targetSlider = db.nodes[db.map.progress];
-				observeTimeSlider(event);
-			}
-		}, {passive: true});
-
-		db.nodes[db.map.progress].addEventListener('mousedown', (event) => {
-			if (isOperable('progress-mouse')) {
-				db.status.targetSlider = db.nodes[db.map.progress];
+		node.addEventListener('pointerdown', (event) => {
+			//force pointer capture to capture the slider element
+			node.setPointerCapture(event.pointerId);
+			
+			if (isOperable('progress-slider', event)) {
+				db.status.targetSlider = node;
 				observeTimeSlider(event);
 			}
 		});
 
-
-		db.nodes[db.map.progress].addEventListener('keydown', (event) => {
+		node.addEventListener('keydown', (event) => {
 			if (isOperable('progress-nudge', event)) {
 				nudgeTime(event);
 			}
@@ -78,8 +74,11 @@ function addProgressEvents() {
 }
 
 function addGainEvents() {
+	const gain = db.nodes[db.map.gain];
+	const fader = db.nodes[db.map.fader];
+	
 	if (db.props.gainOptions !== 'none') {
-		db.nodes[db.map.gain].addEventListener('click', () => {
+		gain.addEventListener('click', () => {
 			toggleGain();
 		});
 
@@ -90,22 +89,17 @@ function addGainEvents() {
 		});
 
 		if (db.props.gainOptions === 'slider') {
-			db.nodes[db.map.fader].addEventListener('touchstart', (event) => {
-				db.status.isTouchEvent = true;
-				if (isOperable('gain-touch', event)) {
-					db.status.targetSlider = db.nodes[db.map.fader];
-					observeGainSlider(event);
-				}
-			}, {passive: true});
-
-			db.nodes[db.map.fader].addEventListener('mousedown', (event) => {
-				if (isOperable('gain-mouse')) {
-					db.status.targetSlider = db.nodes[db.map.fader];
+			fader.addEventListener('pointerdown', (event) => {
+				//force pointer capture to capture the slider element
+				fader.setPointerCapture(event.pointerId);
+				
+				if (isOperable('gain-slider', event)) {
+					db.status.targetSlider = fader;
 					observeGainSlider(event);
 				}
 			});
 
-			db.nodes[db.map.fader].addEventListener('keydown', (event) => {
+			fader.addEventListener('keydown', (event) => {
 				if (isOperable('gain-nudge', event)) {
 					nudgeGain(event);
 				}

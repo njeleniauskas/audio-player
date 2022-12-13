@@ -1,6 +1,6 @@
 function isValidKey(scope, key) {
-	const timeKeys = ['ArrowRight', 'ArrowLeft'];
-	const gainKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'];
+	const timeKeys = ['ArrowRight', 'ArrowLeft', 'Home', 'End'];
+	const gainKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
 	let keys = timeKeys;
 
 	if (scope === 'gain') {
