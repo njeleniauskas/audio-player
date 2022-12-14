@@ -87,9 +87,5 @@ In addition, it only supports iOS13 macOS 10.15 due to pointer events and `touch
 
 
 # Future Issues to Resolve
-- Updating the loading state to include accessibility communications. DO this next ('ts not that hard tbh); make a note about it as it is part of the template process (user error possible)?
-
-
-
 1. Adding a visual indicator that a track is decoding, or in the process of downloading.
 2. Add Media Session API support for broader control support.
