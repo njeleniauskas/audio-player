@@ -8,25 +8,30 @@ import decodeAudioSource from '../dsp/decode-audio-source.js';
  * status needs to be checked before allowing decoding.
  */
 async function assessBufferStatus(thisBuffer) {
+	const message = db.nodes[db.map.message];
 	let index = db.status.targetBuffer;
 	let fileStatus = db.files[index].status;
 	let bufferStatus = db.dsp.buffers[index];
 	let target;
 
 	if (bufferStatus === undefined) {
+		message.textContent = 'Track pending.';
+
 		if (fileStatus === 'fetching') {
 			await awaitFileStatus();
 		}
 
 		target = db.status.targetBuffer;
-
-		if (canProcessAudio() && target === thisBuffer &&
-			db.files[thisBuffer].array.byteLength !== 0) {
+		
+		if (canProcessAudio() 
+		&& target === thisBuffer
+		&& db.files[thisBuffer].array.byteLength !== 0) {
 			await decodeAudioSource(index);
-			return 'buffer is ready to process.';
+
+			return `${db.playlist[thisBuffer].title} Ready`;
 		}
 
-		return 'buffer still needs to be decoded.';
+		return 'Track needs to be decoded.';
 	}
 }
 

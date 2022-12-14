@@ -3,6 +3,7 @@ import setNewTrack from './set-new-track.js';
 import processTargetBuffer from '../buffer/process-target-buffer.js';
 import canProcessAudio from '../utilities/can-process-audio.js';
 import playBuffer from '../playstate/play-buffer.js';
+import updateTrackMessage from '../utilities/update-track-message.js';
 
 /* When changing tracks, a few things must occur. First, correctly processing
  * and gating the target buffer before audio operation is necessary. Second,
@@ -23,6 +24,7 @@ async function changeTrack(direction) {
 
 	await processTargetBuffer()
 		.then((bufferIndex) => {
+			updateTrackMessage();
 
 			if (canProcessAudio()) {
 				let buffer = db.dsp.buffers[db.status.targetBuffer];

@@ -10,6 +10,7 @@ import processTargetBuffer from '../buffer/process-target-buffer.js';
 import setupAudioBuffer from '../dsp/setup-audio-buffer.js';
 import setupGain from '../dsp/setup-gain.js';
 import processGainToggle from '../gain/process-gain-toggle.js';
+import updateTrackMessage from '../utilities/update-track-message.js';
 
 /* Due to browser autoplay policies, a user must interact with the page before
  * an audio context can be invoked. Therefore, on a first run, this function
@@ -27,6 +28,7 @@ async function changePlayState() {
 
 	if (db.dsp.buffers[db.status.targetBuffer] === undefined) {
 		await processTargetBuffer();
+		updateTrackMessage(); //IDK ABOUT THISONE
 	}
 
 	setDSPState();

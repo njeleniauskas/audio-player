@@ -16,9 +16,15 @@ function deployFragment(fragment) {
 			db.container.appendChild(db.player);
 			db.container.setAttribute('data-status', 'active');
 			loader.setAttribute('data-status', 'complete');
-
+			
 			db.status.interactable = true;
-
+			
+			break;
+		}
+		
+		case 'message': {
+			db.container.appendChild(db.message);
+			
 			break;
 		}
 	}

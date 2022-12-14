@@ -45,6 +45,7 @@ const db = {
 		progressHandle: 'progress-handle',
 		faderCurrent: 'gain-current',
 		faderHandle: 'gain-handle',
+		message: 'message',
 
 		//control nodes
 		main: 'main',
@@ -69,6 +70,7 @@ const db = {
 	//interface objects
 	loader: undefined,
 	player: undefined,
+	message: undefined,
 	nodes: {},
 	symbols: {},
 

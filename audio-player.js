@@ -3,8 +3,9 @@ import configurePlayer from './config/configure-player.js';
 import loadSymbols from './config/load-symbols.js';
 import observePlayer from './library/dom/observe-player.js';
 import constructLoader from './library/dom/construct-loader.js';
+import constructLiveRegion from './library/dom/construct-live-region.js';
 import deployFragment from './library/dom/deploy-fragment.js';
-import constructPlayerTemplate from './library/dom/construct-template.js';
+import constructPlayerTemplate from './library/dom/construct-player-template.js';
 import fetchAudioData from './library/fetch.js';
 import initializePlayerInterface from './library/dom/initialize-player.js';
 import unlockWebkitAudioContext from './library/dsp/unlock-webkit-audio.js';
@@ -20,6 +21,8 @@ class AudioPlayer {
 		loadSymbols();
 		observePlayer()
 			.then(() => {
+				constructLiveRegion();
+				deployFragment('message');
 				constructLoader();
 				deployFragment('loader');
 				constructPlayerTemplate(db.props.template);
@@ -27,7 +30,10 @@ class AudioPlayer {
 				initializePlayerInterface()
 					.then(() => {
 						unlockWebkitAudioContext();
-						processTargetBuffer();
+						processTargetBuffer()
+							.then(() => {
+								db.nodes[db.map.message].textContent = 'Audio Player Ready';
+							});
 					});
 			});
 	}

@@ -11,7 +11,7 @@ async function initializePlayerInterface() {
 	deployFragment('interface');
 	gatherNodes();
 	assignEventListeners();
-
+	
 	return new Promise((resolve) => {
 		resolve('player invoked');
 	});
