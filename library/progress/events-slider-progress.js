@@ -13,19 +13,21 @@ import valueInArray from '../utilities/value-in-array.js';
  */
 function observeTimeSlider(event) {
 	let events = ['pointermove', 'pointerup'];
+	let rawValue;
 	window.getSelection().removeAllRanges();
 
 	if (!db.status.observing) {
 		db.status.observing = true;
 		clearInterval(db.monitor.time);
 
-		let rawValue = getSliderValue(event);
+		db.data.pointer.lastX = event.clientX;
+		rawValue = getSliderValue(db.data.pointer.lastX);
 
 		setSliderData('progress', rawValue);
 		updateProgressNodes(rawValue);
 
 		db.handler.dragEvent = seekTime.bind(this);
-		db.handler.setEvent = commitTime.bind(this);
+		db.handler.setEvent = commitTime;
 
 		//not needed as they are implicitly handled
 		db.nodes[db.map.progress].addEventListener(events[0], db.handler.dragEvent);
@@ -34,15 +36,18 @@ function observeTimeSlider(event) {
 }
 
 function seekTime(event) {
-	let rawValue = getSliderValue(event);
-
+	let rawValue;
+	
+	db.data.pointer.lastX = event.clientX;
+	rawValue = getSliderValue(db.data.pointer.lastX);
 	setSliderData('progress', rawValue);
 	updateProgressNodes(rawValue);
 }
 
-function commitTime(event) {
+function commitTime() {
+	let rawValue = getSliderValue(db.data.pointer.lastX);
 	let events = ['pointermove', 'pointerup'];
-	let rawValue = getSliderValue(event);
+
 	setSliderData('progress', rawValue);
 	updateProgressNodes(rawValue);
 
@@ -98,5 +103,6 @@ function nudgeTime(event) {
 
 export {
 	observeTimeSlider,
+	commitTime,
 	nudgeTime,
 };

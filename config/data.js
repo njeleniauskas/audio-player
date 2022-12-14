@@ -110,6 +110,9 @@ const db = {
 		gain: {
 			current: 1,
 			last: 0,
+		},
+		pointer: {
+			lastX: 0,
 		}
 	},
 
@@ -124,7 +127,6 @@ const db = {
 		changingTrack: false,
 		stepping: false,
 		observing: false,
-		//isTouchEvent: false,
 	}
 };
 

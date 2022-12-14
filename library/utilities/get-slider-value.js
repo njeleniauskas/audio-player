@@ -1,6 +1,6 @@
 import db from '../../config/data.js';
 
-function getSliderValue(event) {
+function getSliderValue(clientX) {
 	let coordinate = 0;
 	let currentValue;
 	let sliderRect = db.status.targetSlider.getBoundingClientRect();
@@ -11,7 +11,7 @@ function getSliderValue(event) {
 	let value;
 
 	//the new change to event tracking
-	coordinate = event.clientX;
+	coordinate = clientX;
 	currentValue = coordinate - minBoundary;
 
 	if (currentValue <= minValue) {

@@ -9,30 +9,32 @@ import valueInArray from '../utilities/value-in-array.js';
 function observeGainSlider(event) {
 	let events =  ['pointermove', 'pointerup'];
 	window.getSelection().removeAllRanges();
-	setAndUpdateGain(event);
+	db.data.pointer.lastX = event.clientX;
+	setAndUpdateGain(db.data.pointer.lastX);
 
 	if (canProcessAudio()) {
 		processGainStep();
 	}
 
 	db.handler.dragEvent = seekGain.bind(this);
-	db.handler.setEvent = commitGain.bind(this);
+	db.handler.setEvent = commitGain;
 
 	db.nodes[db.map.fader].addEventListener(events[0], db.handler.dragEvent);
 	window.addEventListener(events[1], db.handler.setEvent);
 }
 
 function seekGain(event) {
-	setAndUpdateGain(event);
+	db.data.pointer.lastX = event.clientX;
+	setAndUpdateGain(db.data.pointer.lastX);
 
 	if (canProcessAudio()) {
 		processGainStep();
 	}
 }
 
-function commitGain(event) {
+function commitGain() {
 	let events = ['pointermove', 'pointerup'];
-	setAndUpdateGain(event);
+	setAndUpdateGain(db.data.pointer.lastX);
 
 	if (canProcessAudio()) {
 		processGainStep();
@@ -78,5 +80,6 @@ function nudgeGain(event) {
 
 export {
 	observeGainSlider,
+	commitGain,
 	nudgeGain,
 };

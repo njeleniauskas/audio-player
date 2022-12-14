@@ -2,13 +2,14 @@ import db from '../../config/data.js';
 import isOperable from '../utilities/is-operable.js';
 import changePlayState from '../playstate/events.js';
 import changeTrack from '../track/events.js';
-import {observeTimeSlider, nudgeTime} from '../progress/events-slider-progress.js';
+import {observeTimeSlider, commitTime, nudgeTime} from '../progress/events-slider-progress.js';
 import toggleGain from '../gain/events-toggle.js';
-import {observeGainSlider, nudgeGain} from '../gain/events-slider-gain.js';
+import {observeGainSlider, commitGain, nudgeGain} from '../gain/events-slider-gain.js';
 
 function assignEventListeners() {
 	addPlayStateEvents();
 	addStepControlEvents();
+	addGlobalPointerEvents();
 	addProgressEvents();
 	addGainEvents();
 }
@@ -49,6 +50,26 @@ function addStepControlEvents() {
 			}
 		});
 	}
+}
+
+function addGlobalPointerEvents() {
+	//capture pointer sequence interruptions
+	window.addEventListener('pointercancel', (event) => {
+		const id = event.pointerId;
+		let node = db.nodes[db.map.progress];
+
+		if (event.target.getAttribute('data-ap-control') === 'fader') {
+			node = db.nodes[db.map.fader];
+		}
+		
+		node.releasePointerCapture(id);
+
+		if (event.target.getAttribute('data-ap-control') === 'progress') {
+			commitTime(db.data.pointer.lastX);
+		} else if (event.target.getAttribute('data-ap-control') === 'fader') {
+			commitGain(db.data.pointer.lastX);
+		}
+	});
 }
 
 function addProgressEvents() {
