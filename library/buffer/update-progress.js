@@ -1,18 +1,20 @@
 import db from '../../config/data.js';
-import updateSlider from '../utilities/update-slider.js';
-import updateTime from '../progress/update-time.js';
+import updateSliderNode from '../utilities/update-slider-node.js';
+import updateTimeNode from '../progress/update-time-node.js';
 
-function updateProgress() {
-	if (db.status.buffer === 'pending') {
-		db.nodes[db.map.timeCurrent].textContent = '0:00';
-		db.nodes[db.map.timeTotal].textContent = '0:00';
-	} else {
-		updateTime('elapsed');
-		updateTime('duration');
+function updateProgress(context) {
+	if (context === 'text') {
+		if (db.status.buffer === 'pending') {
+			db.nodes[db.map.timeCurrent].textContent = '0:00';
+			db.nodes[db.map.timeTotal].textContent = '0:00';
+		} else {
+			updateTimeNode('elapsed');
+			updateTimeNode('duration');
+		}
 	}
 
-	if (db.props.progressOptions === 'slider') {
-		updateSlider('progress', 0);
+	if (context === 'slider') {
+		updateSliderNode('progress', 0);
 	}
 }
 

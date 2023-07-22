@@ -50,7 +50,7 @@ function nudgeGain(event) {
 	let direction = 'forward';
 	let value;
 
-	if (valueInArray(event.key, ['ArrowLeft', 'ArrowDown', 'Home'])) {
+	if (valueInArray(['ArrowLeft', 'ArrowDown', 'Home'], event.key)) {
 		direction = 'back';
 	}
 

@@ -1,22 +1,17 @@
 import db from '../../config/data.js';
-import updateTime from './update-time.js';
-import updateSlider from '../utilities/update-slider.js';
-import updateSliderValues from '../utilities/update-slider-values.js';
-import formatTime from '../utilities/format-time.js';
+import updateTimeNode from './update-time-node.js';
+import updateSliderNode from '../utilities/update-slider-node.js';
+import updateSliderNodeValues from '../utilities/update-slider-node-values.js';
+import isConfigured from '../utilities/is-configured.js';
 
 function updateProgressNodes(unscaledValue) {
-	const values = {
-		'current': Math.floor(db.data.buffer.elapsedTime),
-		'total': Math.floor(db.data.buffer.length)
+	if (isConfigured('progressText', db.props.progressOptions)) {
+		updateTimeNode('elapsed');
 	}
 
-	if (db.props.progressOptions !== 'none') {
-		if (db.props.progressOptions === 'slider') {
-			updateSlider('progress', unscaledValue);
-		}
-
-		updateSliderValues('time');
-		updateTime('elapsed');
+	if (isConfigured('progressSlider', db.props.progressOptions)) {
+		updateSliderNode('progress', unscaledValue);
+		updateSliderNodeValues('time');
 	}
 }
 

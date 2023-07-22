@@ -10,33 +10,29 @@ import db from '../../config/data.js';
  * the registration of events is not accepted.
  */
 function unlockWebkitAudioContext() {
-	function unlock() {
+	function unlock(e) {
 		db.dsp.context.resume().then(clean);
 	}
 
 	function clean() {
+		//2020.02.04: invoking a context at class invokation ignores the autoplay policy. uknown as to why. an immediate suspension is needed.
 		db.dsp.context.suspend()
 			.then(() => {
 				events.forEach((event) => {
-					DOM.removeEventListener(event, unlock);
+					document.body.removeEventListener(event, unlock);
 				});
 			});
+
+		return new Promise((resolve) => {
+			resolve('player unlocked');
+		});
 	}
 
-	//2020.02.04: invoking a context at the class invokation ignores the autoplay policy. uknown as to why. an immediate suspension is needed.
-	const AudioContext = window.AudioContext || window.webkitAudioContext;
-	db.dsp.context = new AudioContext();
-	db.dsp.context.suspend();
-
-	if (db.dsp.context.state !== 'suspended')  {
-		return;
-	}
-
-	const DOM = document.body;
-	const events = ['pointerdown', 'pointerup', 'touchstart','touchend', 'mousedown','keydown'];
+	//2023.07.22: MediaPlayPlause key does not constitute a 'user gesture' for browsers
+	const events = ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'focus'];
 
 	events.forEach((event) => {
-		DOM.addEventListener(event, unlock, false);
+		document.body.addEventListener(event, unlock, false);
 	});
 }
 

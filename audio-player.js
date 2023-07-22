@@ -10,6 +10,7 @@ import fetchAudioData from './library/fetch.js';
 import initializePlayerInterface from './library/dom/initialize-player.js';
 import unlockWebkitAudioContext from './library/dsp/unlock-webkit-audio.js';
 import processTargetBuffer from './library/buffer/process-target-buffer.js';
+import setupAudioContext from './library/dsp/setup-audio-context.js';
 
 class AudioPlayer {
 	constructor(args) {
@@ -30,6 +31,7 @@ class AudioPlayer {
 				initializePlayerInterface()
 					.then(() => {
 						unlockWebkitAudioContext();
+						setupAudioContext();
 						processTargetBuffer()
 							.then(() => {
 								db.nodes[db.map.message].textContent = 'Audio Player Ready';

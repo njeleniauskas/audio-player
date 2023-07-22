@@ -27,17 +27,18 @@ const db = {
 		},
 		offset: 0.05,
 
-		//player config props
-		showMetadata: true,
+		//player config props (smart defaults)
+		showMetadata: false,
 		stepControls: false,
 		progressOptions: 'slider',
-		gainOptions: 'slider',
+		gainOptions: 'none',
 		loop: false,
 	},
 
 	map: {
 		//status nodes
 		title: 'title',
+		subtitle: 'subtitle',
 		artist: 'artist',
 		timeCurrent: 'time-current',
 		timeTotal: 'time-total',

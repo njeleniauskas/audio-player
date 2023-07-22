@@ -1,24 +1,29 @@
 import db from '../../config/data.js';
 import updateMetadata from './update-metadata.js';
 import updateProgress from './update-progress.js';
-import updateSlider from '../utilities/update-slider.js';
+import updateSliderNode from '../utilities/update-slider-node.js';
+import isConfigured from '../utilities/is-configured.js';
 import updateStepControls from '../track/update-step-controls.js';
 
 function updateInterface() {
-	if (db.props.showMetadata) {
+	if (isConfigured('showMetadata', db.props.showMetadata)) {
 		updateMetadata();
 	}
 
-	if (db.props.progressOptions !== 'none') {
-		updateProgress();
+	if (isConfigured('progressText', db.props.progressOptions)) {
+		updateProgress('text');
+	}
+	
+	if (isConfigured('progressSlider', db.props.progressOptions)) {
+		updateProgress('slider');
 	}
 
-	if (db.props.stepControls) {
+	if (isConfigured('stepControls', db.props.stepControls)) {
 		updateStepControls();
 	}
 
-	if (db.props.gainOptions === 'slider') {
-		updateSlider('fader', db.data.gain.current);
+	if (isConfigured('gainSlider', db.props.gainOptions)) {
+		updateSliderNode('fader', db.data.gain.current);
 	}
 }
 

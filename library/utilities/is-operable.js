@@ -2,6 +2,7 @@ import db from '../../config/data.js';
 import isValidControl from './is-valid-control.js';
 import isValidKey from './is-valid-key.js';
 
+//is the targeted functionality available to control
 function isOperable(scope, event) {
 	switch (scope) {
 		case 'playstate': {
@@ -15,7 +16,7 @@ function isOperable(scope, event) {
 
 		case 'playkey': {
 			if (event.key === ' ' && isValidControl() ||
-				event.key === 'MediaPlayPause' && isValidControl()) {
+				event.key === 'MediaPlayPause' && db.status.unlocked === true) {
 				return true;
 			}
 

@@ -2,7 +2,7 @@ import db from "../../config/data.js";
 import formatTime from "./format-time.js";
 import formatVolume from "./format-volume.js";
 
-function updateSliderValues(format) {
+function updateSliderNodeValues(format) {
 	let currentValue;
 	let totalValue;
 	let textString;
@@ -22,4 +22,4 @@ function updateSliderValues(format) {
 	db.nodes[target].setAttribute('aria-valuetext', textString);
 }
 
-export default updateSliderValues;
+export default updateSliderNodeValues;

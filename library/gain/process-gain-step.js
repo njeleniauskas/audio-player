@@ -1,29 +1,27 @@
 import db from '../../config/data.js';
 import scaleGainValue from './scale-gain-value.js';
+import isWithinBoundary from '../utilities/is-within-boundary.js';
+import clampToNearestBoundary from '../utilities/clamp-to-nearest-boundary.js';
 
 /* setValueAtTime is required to prevent zipper noise/audio pops.
- * Additionally, the current gain value may return NaN if it is low enough, so
- * a normalization needs to capture this instance.
+ * Additionally, the lower bound cannot be 0, as exponentialRamptoValueAtTime considers 0 to be a 
+ * negative number. Finally, dsp.gain may be NaN, so a function is needed to sanitize the value.
  */
 function processGainStep() {
 	let fromValue = scaleGainValue(db.dsp.gain.gain.value);
 	let toValue = scaleGainValue(db.data.gain.current);
+	let bounds = [0.00000001, 1];
 
-	if (db.data.gain.current === 0) {
-		toValue = 0.00000001;
+	if (!isWithinBoundary(bounds, toValue)) {
+		toValue = clampToNearestBoundary(bounds, toValue)
 	}
-
-	if (isNaN(fromValue)) {
-		fromValue = 0;
+	
+	if (!isWithinBoundary(bounds, fromValue)) {
+		fromValue = clampToNearestBoundary(bounds, fromValue)
 	}
-
+	
 	db.dsp.gain.gain.setValueAtTime(fromValue, db.dsp.context.currentTime);
-	db.dsp.gain.gain.exponentialRampToValueAtTime(
-		toValue, db.dsp.context.currentTime + db.props.offset);
-
-	if (db.data.gain.current === 0) {
-		db.dsp.gain.gain.setValueAtTime(0, db.dsp.context.currentTime);
-	}
+	db.dsp.gain.gain.exponentialRampToValueAtTime(toValue, db.dsp.context.currentTime + db.props.offset);
 }
 
 export default processGainStep;

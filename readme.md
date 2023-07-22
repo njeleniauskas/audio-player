@@ -6,7 +6,7 @@ The following audio player is built entirely with the Audio API and is written i
 
 
 
-# Usage
+# Usage REWRITE THIS.....
 To properly set up the player you will need to add a link to the core.css file (critical CSS), presentational CSS (see below) and a script module at the end of your html file. This module is where the modules are imported, the playlist is defined, and the necessary arguments for the player set: These arguments are the container class for the player, one of three UI configurations (`'minimal', 'basic', 'full'`), and whether the player will loop or not (`true, false`). Beyond this, you may also define a new player template if you wish, otherwise it will default to the first one.
 
 
@@ -41,6 +41,18 @@ Beyond the core CSS, the player will need additional CSS to further control how 
 
 
 
+# Configuration
+There are two ways to configure the UI of the audio player. You can simply choose a preset from `minimal`, `basic`, and `full`, or if desired, you may customize what will be shown of the player components. The following options are available for the customized option:
+
+showMetadata: `false`, `true`
+stepControls: `false`,`true`*
+progresOptions: `[none, text, slider, both]`
+gainOptions: `[none, button, slider, both]`
+
+* note: track step controls will only display if there are multiple tracks even when set to true.
+
+
+
 # Operation
 When operating the player, the following keys may be used for various controls:
 - Play/Pause: `Spacebar`
@@ -52,6 +64,10 @@ When operating the player, the following keys may be used for various controls:
 
 
 # General Notes
+
+functions are written as context/scope → value largely
+
+
 **Module Process**
 Throughout the modules, data processing is broken into 3 stages, setting data, updating the UI, and processing the data as audio changes. The functions written follow this taxonomy so that the scope of the function is clear. Owing to this, some functions will look like they are coming from a state, but are instead going to the defined state.
 
@@ -87,5 +103,7 @@ In addition, it only supports iOS13 macOS 10.15 due to pointer events and `touch
 
 
 # Future Issues to Resolve
-1. Adding a visual indicator that a track is decoding, or in the process of downloading.
-2. Add Media Session API support for broader control support.
+1. review the ability for the system to be able to be 100% flexible in what is presented to users (rendering by condition);
+2. Create more flexible metadata loading and display.
+3. Adding a visual indicator that a track is decoding, or in the process of downloading.
+4. Add Media Session API support for broader control support.

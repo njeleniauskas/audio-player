@@ -1,15 +1,16 @@
 import db from '../../config/data.js';
-import updateSlider from '../utilities/update-slider.js';
-import updateSliderValues from '../utilities/update-slider-values.js';
+import updateSliderNode from '../utilities/update-slider-node.js';
+import updateSliderNodeValues from '../utilities/update-slider-node-values.js';
+import isConfigured from '../utilities/is-configured.js';
 
 function updateGainNodes() {
-	if (db.props.gainOptions !== 'null') {
-		if (db.props.gainOptions === 'slider') {
-			updateSlider('fader', db.data.gain.current);
-		}
+	if (isConfigured('gainSlider', db.props.gainOptions)) {
+		updateSliderNode('fader', db.data.gain.current);
+		updateSliderNodeValues('gain');
+	}
 
+	if (isConfigured('gainControl', db.props.gainOptions)) {
 		updateGainStatus();
-		updateSliderValues('gain');
 		updateGainSymbol();
 	}
 }
@@ -20,7 +21,7 @@ function updateGainStatus() {
 	if (db.data.gain.current > 0) {
 		string = 'Mute';
 	}
-
+	
 	db.nodes[db.map.gainLabel].textContent = string;
 }
 

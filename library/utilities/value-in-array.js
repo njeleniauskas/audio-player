@@ -1,4 +1,4 @@
-function valueInArray(valueChecked, array) {
+function valueInArray(array, valueChecked) {
 	return array.some((indexValue) => valueChecked === indexValue);
 }
 

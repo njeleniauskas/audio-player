@@ -69,7 +69,7 @@ function nudgeTime(event) {
 	let rawValue;
 	let state = db.dsp.context.state;
 	
-	if (valueInArray(event.key, ['ArrowLeft', 'Home'])) {
+	if (valueInArray(['ArrowLeft', 'Home'], event.key)) {
 		direction = 'back';
 	}
 

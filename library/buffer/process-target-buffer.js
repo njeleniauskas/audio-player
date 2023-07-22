@@ -13,10 +13,7 @@ import setupGain from '../dsp/setup-gain.js';
  */
 async function processTargetBuffer() {
 	try {
-		const message = db.nodes[db.map.message];
 		const thisBuffer = db.status.targetBuffer;
-		let messagePrefix = 'Playing ';
-		let messageSuffix = '';
 		let index = db.status.targetBuffer;
 
 		db.status.buffer = 'pending';

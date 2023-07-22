@@ -2,7 +2,7 @@ import db from '../../config/data.js';
 import formatTime from '../utilities/format-time.js';
 
 //default output is elapsed time
-function updateTime(type) {
+function updateTimeNode(type) {
 	let key = db.map.timeCurrent;
 	let dataEndpoint = db.data.buffer.elapsedTime;
 
@@ -14,4 +14,4 @@ function updateTime(type) {
 	db.nodes[key].textContent = formatTime(dataEndpoint);
 }
 
-export default updateTime;
+export default updateTimeNode;
