@@ -1,73 +1,122 @@
 # Audio Player
-*Audio Player, Version 2.0 | Authored by Nik Jeleniauskas*
+*Version 2.1 | Authored by Nik Jeleniauskas*
 
------
-The following audio player is built entirely with the Audio API and is written in ES6+ (async/await, modules, etc…). It uses no dependencies.
+---
+The following audio player is a flexible, buffer-based application that uses the Audio API, and is written in modern JavaScript.
+
+<br>
+
+## Basic Usage
+This audio player only needs minimal HTML, CSS, and JavaScript to get up and running. However, it can also be configured in several ways to meet different design or behavioral needs (see [configuration details](#configuration-details)).
 
 
+#### HTML
+A container element needs to be added with a unique class so this node can be targeted correctly. You can add your own class name, but an example is as follows:
 
-# Usage REWRITE THIS.....
-To properly set up the player you will need to add a link to the core.css file (critical CSS), presentational CSS (see below) and a script module at the end of your html file. This module is where the modules are imported, the playlist is defined, and the necessary arguments for the player set: These arguments are the container class for the player, one of three UI configurations (`'minimal', 'basic', 'full'`), and whether the player will loop or not (`true, false`). Beyond this, you may also define a new player template if you wish, otherwise it will default to the first one.
+```html
+<div class="audio-container"></div>
+```
 
 
+#### CSS
+The player has two layers of CSS. The `core.css` file contains all of the required styles for the player to function at it's most basic level. Beyond this, a presentational layer is needed as well. You can either used the included `design.css` file, or author your own. 
 
-```javascript
+```html
+<link rel="stylesheet" href="core.css">
+<link rel="stylesheet" href="design.css">
+```
+
+If you author your own CSS, you will need to make sure the styles match the player template being used by the player.
+
+
+#### JavaScript
+To get the player up and running, a JavaScript module is needed and should include the class import, playlist, arguments for the player, and finally, calling the player:
+
+```html
 <script type="module">
 	import AudioPlayer from './audio-player.js';
 
 	const playlist = [
 		{
-			'title': ',
-			'artist': '',
-			'src': ''
+			'title': 'Death with Dignity',
+			'artist': 'Sufjan Stevens',
+			'src': 'assets/audio/death-with-dignity.mp3'
 		}
 	];
 
 	const args = {
-		container: '',
+		container: 'audio-container',
 		playlist: playlist,
-		configuration: '',
-		template: '',
-		loop: false,
 	};
-
+	
 	let audioPlayer = new AudioPlayer(args);
 </script>
 ```
 
+<br>
+
+## Configuration Details
+There are several options to configure how the player behaves and is displayed. Beyond the container and playlist arguments, authors can add a specific configuration option, custom template, and enable or disable looping.
+
+#### Configuration Options
+There are two ways authors can set up the player configuration. Pick a pre-defined option or create their own custom configuration.
+
+There are three pre-defined options (`minimal`, `basic`, `full`), that can be passed as a string in the `args` object:
+
+```javascript
+const args = {
+	configuration: 'minimal'
+};
+```
+
+If you wish to control exactly what UI controls are available, you may instead pass an object to the `configuration` property. The available options you may choose from are as follows:
+
+- `showMetadata`: `[false, true]`
+- `stepControls`: `[false, true]`[^1]
+- `progresOptions`: `[none, text, slider, both]`
+- `gainOptions`: `[none, button, slider, both]`
+
+[^1]: Track step controls will only display if there are multiple tracks even when set to true.
+
+An customized example is as follows:
+
+```javascript
+const config = {
+	showMetadata: false,
+	progressOptions: 'slider',
+	gainOptions: 'button'
+};
+
+const args = {
+	configuration: config
+};
+```
+
+Note, if no `configuration` argument is supplied, the player will default to the `full` configuration.
 
 
-Beyond the core CSS, the player will need additional CSS to further control how it looks. There is a default file that may be used, or if you wish, you may ignore this and write your own styles to suit the project requirements. See the template files for the list of classes that can be targeted.
+#### Player Template
+*Some adjustment of the source code is needed at present for user-generated templates to work properly. This will be fixed in a later version.*
 
 
+#### Looping a Playlist
+By default, looping is set to `false`. However, if you wish continue playing after the last track is completed simply pass `loop: true` in the `args` object.
 
-# Configuration
-There are two ways to configure the UI of the audio player. You can simply choose a preset from `minimal`, `basic`, and `full`, or if desired, you may customize what will be shown of the player components. The following options are available for the customized option:
+<br>
 
-showMetadata: `false`, `true`
-stepControls: `false`,`true`*
-progresOptions: `[none, text, slider, both]`
-gainOptions: `[none, button, slider, both]`
-
-* note: track step controls will only display if there are multiple tracks even when set to true.
-
-
-
-# Operation
+## Operating the Player
 When operating the player, the following keys may be used for various controls:
-- Play/Pause: `Spacebar`
+- Play/Pause: `Spacebar`, `MediaPlayPause`[^2]
 - Track Controls: `MediaKeyPrevious`, `MediaKeyNext`
 - Progress: `ArrowLeft`, `ArrowRight`, `Home`, and `End`
 - Gain Slider: `ArrowLeft` and `ArrowRight`, `ArrowUp` and `ArrowDown`, or `Home` and `End`
 - Gain Toggle: `M`
 
+[^2]: The `MediaPlayPause` key will not work until a user has intearacted with the DOM in some way.
 
+<br>
 
-# General Notes
-
-functions are written as context/scope → value largely
-
-
+## Engineering Notes
 **Module Process**
 Throughout the modules, data processing is broken into 3 stages, setting data, updating the UI, and processing the data as audio changes. The functions written follow this taxonomy so that the scope of the function is clear. Owing to this, some functions will look like they are coming from a state, but are instead going to the defined state.
 
@@ -100,10 +149,13 @@ The current implementation of this player is slightly suboptimal as the iOS impl
 
 In addition, it only supports iOS13 macOS 10.15 due to pointer events and `touch-action` css.
 
+<br>
 
-
-# Future Issues to Resolve
-1. review the ability for the system to be able to be 100% flexible in what is presented to users (rendering by condition);
-2. Create more flexible metadata loading and display.
-3. Adding a visual indicator that a track is decoding, or in the process of downloading.
-4. Add Media Session API support for broader control support.
+## Roadmap
+Here are a few items that are on my radar to explore or fix in the future:
+- Add new loading symbol and animation.
+- Add a loading state when a buffer is still decoding.
+- Capture beforeDrag volume to address drag-to-mute issue.
+- Create more flexible metadata loading and display.
+- Explore Media Session API support for broader control support.
+- Add user-authored player template functionality.

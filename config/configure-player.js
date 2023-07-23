@@ -2,10 +2,11 @@ import db from './data.js';
 import setPlayerByPreset from './set-player-by-preset.js';
 
 function configurePlayer(args) {
-	db.container = document.querySelector(args.container) || null;
+	const className = '.'.concat(args.container);
+	db.container = document.querySelector(className) || null;
 	db.playlist = args.playlist || null;
 	db.data.tracks = args.playlist.length;
-	db.props.template = args.template || 'one';
+	db.props.template = args.template || 'default';
 	db.props.loop = args.loop || false;
 	db.container.setAttribute('data-status', 'pending');
 
