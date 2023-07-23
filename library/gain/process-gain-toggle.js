@@ -9,19 +9,20 @@ import scaleGainValue from './scale-gain-value.js';
  */
 function processGainToggle(direction, scope) {
 	const interval = 10;
-	let valueStart = scaleGainValue(db.data.gain.last);
-	let valueEnd = 0.000000001;
+	const min = 0.00000001;
+	let valueStart = db.data.gain.last;
+	let valueEnd = min;
 
 	if (direction === 'unmute') {
-		valueStart = 0.000000001;
-		valueEnd = scaleGainValue(db.data.gain.current);
+		valueStart = min;
+		valueEnd = db.data.gain.current;
 	}
-
+	
 	if (direction === 'mute' && scope === 'system') {
-		valueStart = scaleGainValue(db.data.gain.current);
+		valueStart = db.data.gain.current;
 	}
-
-	processGainChange(valueStart, valueEnd);
+	
+	processGainChange(valueStart, valueEnd, min);
 
 	if (direction === 'mute' && scope === 'system') {
 		return new Promise((resolve) => {
@@ -38,13 +39,15 @@ function processGainToggle(direction, scope) {
 	}
 }
 
-function processGainChange(start, end) {
+//if start and end are the same (and 0) → use starting gain as the snap-back instead
+//log changes to make sure this is the case
+function processGainChange(start, end, min) {
 	if (start === 0) {
-		start = 0.000000001;
+		start = min;
 	}
 
 	if (end === 0) {
-		end = 0.000000001;
+		end = min;
 	}
 
 	db.dsp.gain.gain.setValueAtTime(

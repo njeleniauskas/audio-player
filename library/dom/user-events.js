@@ -128,6 +128,12 @@ function addGainEvents(context) {
 				nudgeGain(event);
 			}
 		});
+
+		window.addEventListener('keyup', (event) => {
+			if (isOperable('gain-key', event)) {
+				toggleGain();
+			}
+		});
 	}
 
 	if (context === 'control') {

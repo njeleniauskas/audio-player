@@ -154,8 +154,8 @@ In addition, it only supports iOS13 macOS 10.15 due to pointer events and `touch
 ## Roadmap
 Here are a few items that are on my radar to explore or fix in the future:
 - Add new loading symbol and animation.
+- Add a large step to slider nudging.
 - Add a loading state when a buffer is still decoding.
-- Capture beforeDrag volume to address drag-to-mute issue.
+- Add user-authored player template functionality.
 - Create more flexible metadata loading and display.
 - Explore Media Session API support for broader control support.
-- Add user-authored player template functionality.

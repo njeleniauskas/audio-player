@@ -1,16 +1,27 @@
 import db from '../../config/data.js';
-import setAndUpdateGain from './set-and-update-gain.js';
-import processGainStep from './process-gain-step.js';
-import updateGainNodes from './update-gain-nodes.js';
 import canProcessAudio from '../utilities/can-process-audio.js';
 import setSliderData from '../utilities/set-slider-data.js';
 import valueInArray from '../utilities/value-in-array.js';
+import getSliderValue from '../utilities/get-slider-value.js';
+import setAndUpdateGain from './set-and-update-gain.js';
+import processGainStep from './process-gain-step.js';
+import updateGainNodes from './update-gain-nodes.js';
+import scaleGainValue from './scale-gain-value.js';
 
-function observeGainSlider(event) {
+function observeGainSlider(event) {	
 	let events =  ['pointermove', 'pointerup'];
+	let startValue;
+
 	window.getSelection().removeAllRanges();
 	db.data.pointer.lastX = event.clientX;
+	startValue = getSliderValue(db.data.pointer.lastX);
+
+	
 	setAndUpdateGain(db.data.pointer.lastX);
+	
+	if (startValue !== 0) {
+		db.data.gain.start = startValue;
+	}
 
 	if (canProcessAudio()) {
 		processGainStep();
@@ -44,11 +55,12 @@ function commitGain() {
 	window.removeEventListener(events[1], db.handler.setEvent);
 }
 
-
+//nudge function should do this
 function nudgeGain(event) {
 	let step = 0.05;
 	let direction = 'forward';
 	let value;
+	let startValue = Number(db.nodes.fader.getAttribute('aria-valuenow'));
 
 	if (valueInArray(['ArrowLeft', 'ArrowDown', 'Home'], event.key)) {
 		direction = 'back';
@@ -68,6 +80,10 @@ function nudgeGain(event) {
 		value = 1;
 	} else if (value <= 0) {
 		value  = 0;
+	}
+
+	if (startValue !== 0) {
+		db.data.gain.start = startValue;
 	}
 
 	setSliderData('fader', value);

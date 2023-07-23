@@ -113,6 +113,7 @@ const db = {
 		gain: {
 			current: 1,
 			last: 0,
+			start: 1,
 		},
 		pointer: {
 			lastX: 0,

@@ -3,22 +3,29 @@ import formatTime from "./format-time.js";
 import formatVolume from "./format-volume.js";
 
 function updateSliderNodeValues(format) {
+	let target;
 	let currentValue;
-	let totalValue;
+	let maxValue;
+	let currentTextValue;
+	let totalTimeValue;
 	let textString;
-	let target = db.map.progress;
 
 	if (format === 'gain') {
 		target = db.map.fader;
+		currentValue = db.data.gain.current.toFixed(2);
+		maxValue = 1;
 		textString = formatVolume(db.data.gain.current);
 	} else {
-		currentValue = formatTime(db.data.buffer.elapsedTime, 'long');
-		totalValue = formatTime(db.data.buffer.length, 'long');
-		textString = `${currentValue} out of ${totalValue}`;
+		target = db.map.progress;
+		currentValue = Math.floor(db.data.buffer.elapsedTime).toFixed(0);
+		maxValue = Math.floor(db.data.buffer.length);
+		currentTextValue = formatTime(db.data.buffer.elapsedTime, 'long')
+		totalTimeValue = formatTime(db.data.buffer.length, 'long');
+		textString = `${currentTextValue} out of ${totalTimeValue}`;
 	}
 
-	db.nodes[target].setAttribute('aria-valuemax', Math.floor(db.data.buffer.length));
-	db.nodes[target].setAttribute('aria-valuenow', Math.floor(db.data.buffer.elapsedTime));
+	db.nodes[target].setAttribute('aria-valuemax', maxValue);
+	db.nodes[target].setAttribute('aria-valuenow', currentValue);
 	db.nodes[target].setAttribute('aria-valuetext', textString);
 }
 
