@@ -1,9 +1,9 @@
-import constructTemplateOne from '../../templates/template-one.js';
+import constructDefaultTemplate from '../../templates/template-default.js';
 
 function constructPlayerTemplate(template) {
 	switch (template) {
 		case 'default': {
-			constructTemplateOne();
+			constructDefaultTemplate();
 			break;
 		}
 		case 'user': {

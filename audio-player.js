@@ -2,15 +2,16 @@ import db from './config/data.js';
 import configurePlayer from './config/configure-player.js';
 import loadSymbols from './config/load-symbols.js';
 import observePlayer from './library/dom/observe-player.js';
-import constructLoader from './library/dom/construct-loader.js';
 import constructLiveRegion from './library/dom/construct-live-region.js';
 import deployFragment from './library/dom/deploy-fragment.js';
 import constructPlayerTemplate from './library/dom/construct-player-template.js';
 import fetchAudioData from './library/fetch.js';
-import initializePlayerInterface from './library/dom/initialize-player.js';
+import initializePlayerInterface from './library/dom/initialize-player-interface.js';
 import unlockWebkitAudioContext from './library/dsp/unlock-webkit-audio.js';
 import processTargetBuffer from './library/buffer/process-target-buffer.js';
+import updateUIReadyState from './library/buffer/update-ui-ready-state.js';
 import setupAudioContext from './library/dsp/setup-audio-context.js';
+import awaitFileStatus from './library/utilities/await-file-status.js';
 
 class AudioPlayer {
 	constructor(args) {
@@ -24,16 +25,21 @@ class AudioPlayer {
 			.then(() => {
 				constructLiveRegion();
 				deployFragment('message');
-				constructLoader();
-				deployFragment('loader');
+
+				//original: fetch → await → build
 				constructPlayerTemplate(db.props.template);
+				initializePlayerInterface();
+				updateUIReadyState('pending');
+
+				//start the main processing thread
 				fetchAudioData();
-				initializePlayerInterface()
+				awaitFileStatus()
 					.then(() => {
 						unlockWebkitAudioContext();
 						setupAudioContext();
 						processTargetBuffer()
-							.then(() => {
+						.then(() => {
+								updateUIReadyState('ready');
 								db.nodes[db.map.message].textContent = 'Audio Player Ready';
 							});
 					});

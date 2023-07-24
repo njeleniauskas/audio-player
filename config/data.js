@@ -15,7 +15,8 @@ const db = {
 
 	props: {
 		configuration: 'full',
-		template: 'one',
+		loader: 'default',
+		template: 'default',
 		rootClassName: 'audio',
 		strings: {
 			prefix: 'data-ap',
@@ -23,6 +24,7 @@ const db = {
 			control: 'data-ap-control',
 			label: 'data-ap-label',
 			symbol: 'data-ap-symbol',
+			section: 'data-ap-section',
 			hidden: 'data-hidden',
 		},
 		offset: 0.05,
@@ -65,15 +67,19 @@ const db = {
 		pause: 'pause',
 		gainZero: 'gain-zero',
 		gainOne: 'gain-one',
-		gainTwo: 'gain-two'
+		gainTwo: 'gain-two',
+
+		//section loader nodes, generic, or specific ones
+		sectionLoader: 'loader',
+		sectionLoaderMain: 'loader-main',
 	},
 
 	//interface objects
-	loader: undefined,
 	player: undefined,
 	message: undefined,
 	nodes: {},
 	symbols: {},
+	sections: [],
 
 	//dynamic event handlers
 	handler: {

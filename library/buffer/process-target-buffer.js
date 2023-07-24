@@ -16,7 +16,6 @@ async function processTargetBuffer() {
 		const thisBuffer = db.status.targetBuffer;
 		let index = db.status.targetBuffer;
 
-		db.status.buffer = 'pending';
 		await assessBufferStatus(thisBuffer);
 
 		if (db.dsp.buffers[index] !== undefined 

@@ -144,6 +144,11 @@ The accessibility support of this player robust, and should work for all devices
 
 
 
+**Loading States**
+Loading states for the player are necessary in two places. If a user has a slow connection, the initial load of the JavaScript Module may take more than a few seconds. In addition, all users may experience a delay between a track being downloaded, and decoded and ready to play.
+
+
+
 **Webkit/iOS/Safari**
 The current implementation of this player is slightly suboptimal as the iOS implementation of the Audio API does not adhere to the W3C standard. As such, there are some very buggy behaviors that exist that needed to be fixed, such as unlocking audio processing at the start of the player.
 
@@ -159,3 +164,4 @@ Here are a few items that are on my radar to explore or fix in the future:
 - Add user-authored player template functionality.
 - Create more flexible metadata loading and display.
 - Explore Media Session API support for broader control support.
+- update readme to include 'build your own' details (data-attrs as hints to important nodes).

@@ -4,6 +4,7 @@ import processTargetBuffer from '../buffer/process-target-buffer.js';
 import canProcessAudio from '../utilities/can-process-audio.js';
 import playBuffer from '../playstate/play-buffer.js';
 import updateTrackMessage from '../utilities/update-track-message.js';
+import updateUIReadyState from '../buffer/update-ui-ready-state.js';
 
 /* When changing tracks, a few things must occur. First, correctly processing
  * and gating the target buffer before audio operation is necessary. Second,
@@ -12,34 +13,38 @@ import updateTrackMessage from '../utilities/update-track-message.js';
  */
 async function changeTrack(direction) {
 	db.status.changingTrack = true;
+	db.status.buffer = 'pending';
 	clearInterval(db.monitor.time);
 
 	setNewTrack(direction);
-
+	
 	if (db.dsp.context !== undefined) {
-		if (db.dsp.context.state === 'running') {
+		//db.status.unlocked needed; webkit unlock bug starts the context before it normally would
+		if (db.status.unlocked === true && db.dsp.context.state === 'running') {
 			db.dsp.source.stop(db.dsp.context.currentTime);
 		}
-	}
 
-	await processTargetBuffer()
+		updateUIReadyState('pending');
+		
+		await processTargetBuffer()
 		.then((bufferIndex) => {
 			updateTrackMessage();
-
-			if (canProcessAudio()) {
-				let buffer = db.dsp.buffers[db.status.targetBuffer];
-				let target = db.status.targetBuffer;
-				let context = db.dsp.context.state;
-
-				if (buffer !== undefined &&
-					bufferIndex === target &&
-					context !== 'suspended') {
-					playBuffer();
+				updateUIReadyState('ready');
+				if (canProcessAudio()) {
+					let buffer = db.dsp.buffers[db.status.targetBuffer];
+					let target = db.status.targetBuffer;
+					let context = db.dsp.context.state;
+	
+					if (buffer !== undefined &&
+						bufferIndex === target &&
+						context !== 'suspended') {
+						playBuffer();
+					}
 				}
-			}
-		});
-
-	db.status.changingTrack = false;
+			});
+	
+		db.status.changingTrack = false;
+	}
 }
 
 export default changeTrack;

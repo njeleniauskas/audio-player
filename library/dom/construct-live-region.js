@@ -1,5 +1,6 @@
 import db from '../../config/data.js';
 
+//player is already observed, and is loading assets at creation time
 function constructLiveRegion() {
 	let fragment = document.createDocumentFragment();
 	let element = document.createElement('div');
@@ -9,7 +10,7 @@ function constructLiveRegion() {
 	element.setAttribute('data-ap-status', 'message');
 	element.setAttribute('aria-live', 'assertive');
 	element.classList.add('sr-text');
-	element.textContent = 'Audio Player is Waiting to Load';
+	element.textContent = 'Constructing Audio Player';
 	fragment.appendChild(element);
 
 	db.message = fragment;

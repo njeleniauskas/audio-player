@@ -7,7 +7,7 @@ function observePlayer() {
 			rootMargin: '0px',
 			threshold: 0.6,
 		};
-
+		
 		observer = new IntersectionObserver((array) => {
 			array.forEach((item) => {
 				if (item.intersectionRatio > options.threshold) {

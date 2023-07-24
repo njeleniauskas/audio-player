@@ -1,7 +1,7 @@
 import db from '../config/data.js';
 import isConfigured from '../library/utilities/is-configured.js';
 
-function constructTemplateOne() {
+function constructDefaultTemplate() {
 	let fragment = document.createDocumentFragment();
 	let player = document.createElement('div');
 	let className = `${db.props.rootClassName}-player`;
@@ -21,6 +21,7 @@ function constructTemplateOne() {
 
 	let status = db.props.strings.status;
 	let control = db.props.strings.control;
+	let section = db.props.strings.section;
 
 	player.classList.add(className);
 
@@ -31,12 +32,15 @@ function constructTemplateOne() {
 		</div>`;
 	}
 
-	controls = `<button class="${className}_controls" ${control}="${db.map.main}" aria-labelledby="ap-play">
+	controls = `<button ${control}="${db.map.main}" aria-labelledby="ap-play">
 		<div id="ap-play" class="sr-text" data-ap-label="main-label">Play Track</div>
-		<svg width="12" height="16" viewBox="0 0 12 16">
-			${db.symbols.play}
-			${db.symbols.pause}
-		</svg>
+		<div class="play-symbols">
+			${db.symbols.loader}
+			<div class="play-symbols_main" ${section}>
+				${db.symbols.play}
+				${db.symbols.pause}
+			</div>
+		</div>
 	</button>`;
 
 	if (isConfigured('stepControls', db.props.stepControls)) {
@@ -47,7 +51,7 @@ function constructTemplateOne() {
 			nextStatus = `aria-disabled="false"`;
 		}
 
-		stepControls = `<div>
+		stepControls = `<div class="${className}_step-controls">
 			<button ${control}="${db.map.previous}" aria-disabled="true" aria-labelledby="ap-prev">
 				<div id="ap-prev" class="sr-text">Previous Track</div>
 				${db.symbols.prev}
@@ -136,4 +140,4 @@ function constructTemplateOne() {
 	db.player = fragment;
 }
 
-export default constructTemplateOne;
+export default constructDefaultTemplate;

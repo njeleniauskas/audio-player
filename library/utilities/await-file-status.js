@@ -1,6 +1,6 @@
 import db from '../../config/data.js';
 
-function awaitFileStatus() {
+async function awaitFileStatus() {
 	return new Promise((resolve) => {
 		const interval = 100;
 		const index = db.status.targetBuffer;
