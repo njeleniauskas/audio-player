@@ -184,7 +184,6 @@ In addition, it only supports iOS13 macOS 10.15 due to pointer events and `touch
 ## Roadmap
 Here are a few items that are on my radar to explore or fix in the future:
 - Add a large step to slider nudging.
-- Add user-authored player template functionality.
 - Create more flexible metadata loading and display.
 - Explore Media Session API support for broader control support.
 - update readme to include 'build your own' details (data-attrs as hints to important nodes).
