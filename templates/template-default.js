@@ -137,7 +137,7 @@ function constructDefaultTemplate() {
 
 	fragment.appendChild(player);
 
-	db.player = fragment;
+	return fragment;
 }
 
 export default constructDefaultTemplate;

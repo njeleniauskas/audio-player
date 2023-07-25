@@ -16,7 +16,7 @@ const db = {
 	props: {
 		configuration: 'full',
 		loader: 'default',
-		template: 'default',
+		template: null,
 		rootClassName: 'audio',
 		strings: {
 			prefix: 'data-ap',

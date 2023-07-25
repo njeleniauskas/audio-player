@@ -9,6 +9,7 @@ The following audio player is a flexible, buffer-based application that uses the
 ## Basic Usage
 This audio player only needs minimal HTML, CSS, and JavaScript to get up and running. However, it can also be configured in several ways to meet different design or behavioral needs (see [configuration details](#configuration-details)).
 
+<br>
 
 #### HTML
 A container element needs to be added with a unique class so this node can be targeted correctly. You can add your own class name, but an example is as follows:
@@ -17,6 +18,7 @@ A container element needs to be added with a unique class so this node can be ta
 <div class="audio-container"></div>
 ```
 
+<br>
 
 #### CSS
 The player has two layers of CSS. The `core.css` file contains all of the required styles for the player to function at it's most basic level. Beyond this, a presentational layer is needed as well. You can either used the included `design.css` file, or author your own. 
@@ -28,6 +30,7 @@ The player has two layers of CSS. The `core.css` file contains all of the requir
 
 If you author your own CSS, you will need to make sure the styles match the player template being used by the player.
 
+<br>
 
 #### JavaScript
 To get the player up and running, a JavaScript module is needed and should include the class import, playlist, arguments for the player, and finally, calling the player:
@@ -45,8 +48,8 @@ To get the player up and running, a JavaScript module is needed and should inclu
 	];
 
 	const args = {
-		container: 'audio-container',
-		playlist: playlist,
+		'container': 'audio-container',
+		'playlist': playlist,
 	};
 	
 	let audioPlayer = new AudioPlayer(args);
@@ -57,6 +60,8 @@ To get the player up and running, a JavaScript module is needed and should inclu
 
 ## Configuration Details
 There are several options to configure how the player behaves and is displayed. Beyond the container and playlist arguments, authors can add a specific configuration option, custom template, and enable or disable looping.
+
+<br>
 
 #### Configuration Options
 There are two ways authors can set up the player configuration. Pick a pre-defined option or create their own custom configuration.
@@ -82,25 +87,45 @@ An customized example is as follows:
 
 ```javascript
 const config = {
-	showMetadata: false,
-	progressOptions: 'slider',
-	gainOptions: 'button'
+	'showMetadata': false,
+	'progressOptions': 'slider',
+	'gainOptions': 'button'
 };
 
 const args = {
-	configuration: config
+	'configuration': config
 };
 ```
 
 Note, if no `configuration` argument is supplied, the player will default to the `full` configuration.
 
-
-#### Player Template
-*Some adjustment of the source code is needed at present for user-generated templates to work properly. This will be fixed in a later version.*
-
+<br>
 
 #### Looping a Playlist
 By default, looping is set to `false`. However, if you wish continue playing after the last track is completed simply pass `loop: true` in the `args` object.
+
+<br>
+
+#### Player Template
+If desired, a custom template can be passed to the player as an argument. To work properly, the `template` argument should be passed a function that returns a document fragment. An example of a template skeleton being passed to the player is as follows:
+
+```javascript
+const playerTemplate = function() {
+	const documentFragment = document.createDocumentFragment();
+	let player = document.createElement('div');
+
+	documentFragment.appendChild(player);
+
+	return documentFragment;
+}
+```
+```javascript
+const args = {
+	'template': playerTemplate
+}
+```
+
+*Note: a more detailed explanation of the usable data attributes and structures you can use will be written in the future.*
 
 <br>
 

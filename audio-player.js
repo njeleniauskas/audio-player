@@ -28,21 +28,26 @@ class AudioPlayer {
 
 				//original: fetch → await → build
 				constructPlayerTemplate(db.props.template);
-				initializePlayerInterface();
-				updateUIReadyState('pending');
 
-				//start the main processing thread
-				fetchAudioData();
-				awaitFileStatus()
-					.then(() => {
-						unlockWebkitAudioContext();
-						setupAudioContext();
-						processTargetBuffer()
+				try {
+					initializePlayerInterface();
+					updateUIReadyState('pending');
+	
+					//start the main processing thread
+					fetchAudioData();
+					awaitFileStatus()
 						.then(() => {
-								updateUIReadyState('ready');
-								db.nodes[db.map.message].textContent = 'Audio Player Ready';
-							});
-					});
+							unlockWebkitAudioContext();
+							setupAudioContext();
+							processTargetBuffer()
+							.then(() => {
+									updateUIReadyState('ready');
+									db.nodes[db.map.message].textContent = 'Audio Player Ready';
+								});
+						});
+				} catch (error) {
+					console.error('Error initializing interface:', error);
+				}
 			});
 	}
 }

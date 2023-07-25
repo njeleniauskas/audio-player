@@ -8,7 +8,8 @@ function isConfigured(key, value) {
 		'progressText': ['text', 'both'],
 		'progressSlider': ['slider', 'both'],
 		'gainSlider': ['slider', 'both'],
-		'gainControl': ['button', 'both']
+		'gainControl': ['button', 'both'],
+		'gainKey': ['slider', 'button', 'both']
 	};
 	const array = options[key];
 	let result = valueInArray(array, value);

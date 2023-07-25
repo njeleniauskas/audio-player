@@ -6,7 +6,7 @@ function configurePlayer(args) {
 	db.container = document.querySelector(className) || null;
 	db.playlist = args.playlist || null;
 	db.data.tracks = args.playlist.length;
-	db.props.template = args.template || 'default';
+	db.props.template = args.template || null;
 	db.props.loop = args.loop || false;
 	db.container.setAttribute('data-status', 'pending');
 

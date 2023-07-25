@@ -30,6 +30,10 @@ function assignEventListeners() {
 	if (isConfigured('gainControl', db.props.gainOptions)) {
 		addGainEvents('control');
 	}
+
+	if (isConfigured('gainKey', db.props.gainOptions)) {
+		addGainEvents('key');
+	}
 }
 
 function addPlayStateEvents() {
@@ -128,19 +132,15 @@ function addGainEvents(context) {
 				nudgeGain(event);
 			}
 		});
-
-		window.addEventListener('keyup', (event) => {
-			if (isOperable('gain-key', event)) {
-				toggleGain();
-			}
-		});
 	}
 
 	if (context === 'control') {
 		gain.addEventListener('click', () => {
 			toggleGain();
 		});
+	}
 
+	if (context === 'key') {
 		window.addEventListener('keyup', (event) => {
 			if (isOperable('gain-key', event)) {
 				toggleGain();
