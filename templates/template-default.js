@@ -27,8 +27,8 @@ function constructDefaultTemplate() {
 
 	if (isConfigured('showMetadata', db.props.showMetadata)) {
 		metadata = `<div class="${className}_metadata">
-			<div class="${className}_title" ${status}="${db.map.title}"></div>
-			<div class="${className}_artist" ${status}="${db.map.artist}"></div>
+			<div class="${className}_title" ${status}="${db.map.title}">-</div>
+			<div class="${className}_artist" ${status}="${db.map.artist}">-</div>
 		</div>`;
 	}
 
