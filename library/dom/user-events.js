@@ -76,17 +76,23 @@ function addGlobalPointerEvents() {
 	//capture pointer sequence interruptions
 	window.addEventListener('pointercancel', (event) => {
 		const id = event.pointerId;
+		let isValidNode = (event.target.nodeType === 1);
+		let targetAttribute;
 		let node = db.nodes[db.map.progress];
 
-		if (event.target.getAttribute('data-ap-control') === 'fader') {
+		if (isValidNode) {
+			targetAttribute = event.target.getAttribute('data-ap-control');
+		}
+		
+		if (isValidNode && targetAttribute === 'fader') {
 			node = db.nodes[db.map.fader];
 		}
 		
 		node.releasePointerCapture(id);
 
-		if (event.target.getAttribute('data-ap-control') === 'progress') {
+		if (isValidNode && targetAttribute === 'progress') {
 			commitTime(db.data.pointer.lastX);
-		} else if (event.target.getAttribute('data-ap-control') === 'fader') {
+		} else if (isValidNode && targetAttribute === 'fader') {
 			commitGain(db.data.pointer.lastX);
 		}
 	});
