@@ -1,0 +1,114 @@
+/* Presentational CSS
+ * All of the presentational/visual layout of the player should be included in
+ * this stylesheet. This stylesheet is fairly rudimentary, but works.
+ */
+.audio-container {
+	--button-height: 5rem;
+	--button-width: 5rem;
+}
+
+.audio-loader {
+	height: var(--button-height);
+}
+
+[data-ap-section=loader-main] {
+	width: 2rem;
+	height: 2rem;
+	transition: 300ms opacity;
+}
+
+[data-ap-section=loader-main][data-hidden=false] {
+	opacity: 1;
+}
+
+/* animation is not rendered when opacity is 0; okay to be here */
+[data-ap-section=loader-main] circle {
+	stroke-dasharray: 150, 200;
+	stroke-dashoffset: 100;
+	transform-origin: 50% 50%;
+	animation: none;
+	animation: mainLoader 1000ms linear infinite;
+}
+
+
+@keyframes mainLoader {
+	0% {
+		transform: rotate(0deg);
+	}
+	
+	50% {
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+[data-status=complete] {
+	/* keyframe animate out for graceful removal*/
+	display: flex;
+	transition: opacity 200ms;
+	opacity: 0;
+}
+
+.audio-player {
+	font-family: system-ui, sans-serif;
+}
+
+.audio-player_metadata {
+	flex: 1 1 100%;
+	margin-bottom: 0.5rem;
+}
+
+.audio-player_progress {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+}
+
+.flex-fill {
+	flex: 1 1 auto;
+}
+
+.slider--progress {
+	flex: 1 1 auto;
+	margin: 0 0.5rem;
+}
+
+.audio-player_gain {
+	display: flex;
+	align-items: center;
+}
+
+.slider--gain {
+	width: 4rem;
+	margin: 0 1rem;
+}
+
+.player-time-current,
+.player-time-total {
+	min-width: 2.5rem;
+}
+
+.player-time-current {
+	text-align: right;
+}
+
+button {
+	min-width: 4rem;
+	min-height: 4rem;
+}
+
+@media screen and (max-width: 500px) {
+	.audio-player {
+		justify-content: center;
+	}
+	.audio-player_progress {
+		flex: 1 1 100%;
+		padding: 2rem;
+	}
+}
+
+[aria-disabled=true] svg {
+	opacity: 0.4;
+}

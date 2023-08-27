@@ -21,11 +21,11 @@ A container element needs to be added with a unique class so this node can be ta
 <br>
 
 #### CSS
-The player has two layers of CSS. The `core.css` file contains all of the required styles for the player to function at it's most basic level. Beyond this, a presentational layer is needed as well. You can either used the included `design.css` file, or author your own. 
+The player has two layers of CSS. The `ap-core.css` file contains all of the required styles for the player to function at it's most basic level. Beyond this, a presentational layer is needed as well. You can either used the included `ap-design.css` file, or author your own. 
 
 ```html
-<link rel="stylesheet" href="core.css">
-<link rel="stylesheet" href="design.css">
+<link rel="stylesheet" href="ap-core.css">
+<link rel="stylesheet" href="ap-design.css">
 ```
 
 If you author your own CSS, you will need to make sure the styles match the player template being used by the player.
