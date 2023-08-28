@@ -6,9 +6,19 @@ function configurePlayer(args) {
 	db.container = document.querySelector(className) || null;
 	db.playlist = args.playlist || null;
 	db.data.tracks = args.playlist.length;
-	db.props.template = args.template || null;
+	db.props.template.function = args.template || null;
 	db.props.loop = args.loop || false;
 	db.container.setAttribute('data-status', 'pending');
+
+	if (args.breakpoints !== undefined) {
+		let keys = Object.keys(args.breakpoints);
+
+		keys.forEach((key) => {
+			db.props.template.breakpoints[key] = args.breakpoints[key];
+		});
+
+		db.props.template.totalBreakpoints = Object.keys(db.props.template.breakpoints).length;
+	}
 
 	if (args.configuration === undefined) {
 		args.configuration = 'full';

@@ -16,9 +16,24 @@ const db = {
 	props: {
 		configuration: 'full',
 		loader: 'default',
-		template: null,
-		breakpoints: [],
-		rootClassName: 'audio',
+		template: {
+			function: null,
+			breakpoints: {
+				"default": [
+					'metadata',
+					'main',
+					'previous',
+					'next',
+					'progress',
+					'gain'
+				]
+			},
+			totalBreakpoints: 1
+		},
+		classes: {
+			root: 'audio-player',
+			hasSlider: 'has-slider'
+		},
 		strings: {
 			prefix: 'data-ap',
 			status: 'data-ap-status',
@@ -27,7 +42,7 @@ const db = {
 			symbol: 'data-ap-symbol',
 			section: 'data-ap-section',
 			readyState: 'data-ap-ready-state',
-			hidden: 'data-hidden',
+			hidden: 'data-hidden'
 		},
 		offset: 0.05,
 
@@ -36,7 +51,7 @@ const db = {
 		stepControls: false,
 		progressOptions: 'slider',
 		gainOptions: 'none',
-		loop: false,
+		loop: false
 	},
 
 	map: {
@@ -73,13 +88,19 @@ const db = {
 		gainTwo: 'gain-two',
 
 		//section nodes (containers)
-		sectionPlaySymbols: 'symbols-play',
-		sectionProgress: 'progress-container',
-		sectionVolume: 'volume'
+		sectionMeta: 'metadata',
+		sectionMain: 'main',
+		sectionPrev: 'previous',
+		sectionNext: 'next',
+		sectionProgress: 'progress',
+		sectionGain: 'gain'
 	},
 
 	//interface objects
-	player: undefined,
+	player: {
+		template: undefined,
+		node: undefined
+	},
 	message: undefined,
 	nodes: {},
 	symbols: {},
@@ -95,7 +116,7 @@ const db = {
 	monitor: {
 		fetch: null,
 		time: null,
-		gain: null,
+		gain: null
 	},
 
 	//digital signal processing endpoints
@@ -103,7 +124,7 @@ const db = {
 		context: undefined,
 		buffers: [],
 		source: null,
-		gain: undefined,
+		gain: undefined
 	},
 
 	//operational data
@@ -113,16 +134,16 @@ const db = {
 			track: 0,
 			length: 0,
 			startTime: 0,
-			elapsedTime: 0,
+			elapsedTime: 0
 		},
 		metadata: {
 			title: '',
-			artist: '',
+			artist: ''
 		},
 		gain: {
 			current: 1,
 			last: 0,
-			start: 1,
+			start: 1
 		},
 		pointer: {
 			lastX: 0,
@@ -140,6 +161,8 @@ const db = {
 		changingTrack: false,
 		stepping: false,
 		observing: false,
+		viewportWidth: window.innerWidth,
+		playerConfig: 'default'
 	}
 };
 

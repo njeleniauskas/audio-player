@@ -1,53 +1,64 @@
 import db from '../config/data.js';
 import isConfigured from '../library/utilities/is-configured.js';
 
-function constructDefaultTemplate() {
+function constructDefaultTemplate(configuration) {
 	let fragment = document.createDocumentFragment();
 	let player = document.createElement('div');
-	let className = `${db.props.rootClassName}-player`;
-	let isDisplayed = '';
+	let classRoot = db.props.classes.root;
+	let classHasSlider = db.props.classes.hasSlider;
+	let breakpoints = db.props.template.breakpoints;
 
-	let metadata = '';
+	let section = {
+		'metadata': '',
+		'main': '',
+		'previous': '',
+		'next': '',
+		'progress': '',
+		'gain': ''
+	};
+	let sectionOrder = [];
 	let loader = '';
-	let controls = '';
-	let stepControls = '';
-	let progress = '';
+	let progressBarClass = '';
 	let progressBar = '';
 	let timeCurrent = '';
 	let timeDivider = '';
 	let timeTotal = '';
-	let volume = '';
-	let volumeSlider = '';
-	let volumeControl = '';
+	let gainSlider = '';
+	let gainControl = '';
 
-	let status = db.props.strings.status;
-	let control = db.props.strings.control;
-	let section = db.props.strings.section;
-	let ready = db.props.strings.readyState;
 
-	player.classList.add(className);
+	let statusAttr = db.props.strings.status;
+	let controlAttr = db.props.strings.control;
+	let sectionAttr = db.props.strings.section;
+	let readyAttr = db.props.strings.readyState;
+
+
+	player.classList.add(classRoot);
+
 
 	if (isConfigured('showMetadata', db.props.showMetadata)) {
-		metadata = `<div class="${className}_metadata">
-			<div class="${className}_title" ${status}="${db.map.title}">-</div>
-			<div class="${className}_artist" ${status}="${db.map.artist}">-</div>
+		section.metadata = `<div class="${classRoot}_metadata" ${sectionAttr}="${db.map.sectionMeta}">
+			<div class="${classRoot}_title" ${statusAttr}="${db.map.title}">-</div>
+			<div class="${classRoot}_artist" ${statusAttr}="${db.map.artist}">-</div>
 		</div>`;
 	}
 
-	loader = `<div ${ready}="pending">
+
+	loader = `<div ${readyAttr}="pending">
 		${db.symbols.loader}
 	</div>`;
 
-	controls = `<button ${control}="${db.map.main}" aria-labelledby="ap-play">
+	section.main = `<button ${controlAttr}="${db.map.main}" ${sectionAttr}="${db.map.sectionMain}" aria-labelledby="ap-play">
 		<div id="ap-play" class="sr-text" data-ap-label="main-label">Play Track</div>
 		<div class="play-symbols">
 			${loader}
-			<div class="play-symbols_main" ${section}="symbols-play" ${ready}="ready">
+			<div class="play-symbols_main" ${readyAttr}="ready">
 				${db.symbols.play}
 				${db.symbols.pause}
 			</div>
 		</div>
 	</button>`;
+
 
 	if (isConfigured('stepControls', db.props.stepControls)) {
 		let tracks = db.data.tracks;
@@ -57,21 +68,28 @@ function constructDefaultTemplate() {
 			nextStatus = `aria-disabled="false"`;
 		}
 
-		stepControls = `
-			<button ${control}="${db.map.previous}" aria-disabled="true" aria-labelledby="ap-prev">
-				<div id="ap-prev" class="sr-text">Previous Track</div>
-				${db.symbols.prev}
-				</button>
-			<button ${control}="${db.map.next}" ${nextStatus} aria-labelledby="ap-next">
+		section.previous = `
+			<button ${controlAttr}="${db.map.previous}" ${sectionAttr}="${db.map.sectionPrev}" aria-disabled="true" aria-labelledby="ap-previous">
+				<div id="ap-previous" class="sr-text">previousious Track</div>
+				${db.symbols.previous}
+			</button>
+		`;
+		section.next = `
+			<button ${controlAttr}="${db.map.next}" ${sectionAttr}="${db.map.sectionNext}" ${nextStatus} aria-labelledby="ap-next">
 				<div id="ap-next" class="sr-text">Next Track</div>
 				${db.symbols.next}
 			</button>`;
 	}
 
+
+	if (isConfigured('progressSlider', db.props.progressOptions)) {
+		progressBarClass = ` ${classHasSlider}`;
+	}
+
 	if (isConfigured('progressText', db.props.progressOptions)) {
-		timeCurrent = `<div class="player-time-current" ${status}="${db.map.timeCurrent}">-:--</div>`;
+		timeCurrent = `<div class="player-time-current" ${statusAttr}="${db.map.timeCurrent}">-:--</div>`;
 		timeDivider = `<span>/</span>`;
-		timeTotal = `<div class="player-time-total" ${status}="${db.map.timeTotal}">-:--</div>`;
+		timeTotal = `<div class="player-time-total" ${statusAttr}="${db.map.timeTotal}">-:--</div>`;
 	}
 	
 	if (isConfigured('progressSlider', db.props.progressOptions)) {
@@ -79,7 +97,7 @@ function constructDefaultTemplate() {
 		progressBar = `<div
 			class="slider slider--progress" 
 			tabindex="0" 
-			${control}="${db.map.progress}" 
+			${controlAttr}="${db.map.progress}" 
 			role="slider"
 			aria-valuemin="0"
 			aria-valuemax="0"
@@ -87,58 +105,69 @@ function constructDefaultTemplate() {
 			aria-valuetext="0 of 0 seconds played"
 			aria-labelledby="ap-progress">
 				<div class="slider_track">
-					<div class="slider_progress" ${status}="${db.map.progressCurrent}" style="transform: scaleX(0)"></div>
-					<div class="slider_handle" ${status}="${db.map.progressHandle}"></div>
+					<div class="slider_progress" ${statusAttr}="${db.map.progressCurrent}" style="transform: scaleX(0)"></div>
+					<div class="slider_handle" ${statusAttr}="${db.map.progressHandle}"></div>
 				</div>
 			</div>`;
 	}
 
-	progress = `<div class="${className}_progress" ${section}="progress-container">
-		${timeCurrent}
-		<div id="ap-progress" class="sr-text">Current Progress</div>
-		${progressBar}
-		${timeDivider}
-		${timeTotal}
-	</div>`;
+	//JS needed until :has() parent selection is better supported in CSS
+	if (db.props.progressOptions !== 'none') {
+		section.progress = `<div class="${classRoot}_progress${progressBarClass}" ${sectionAttr}="${db.map.sectionProgress}">
+			${timeCurrent}
+			<div id="ap-progress" class="sr-text">Current Progress</div>
+			${progressBar}
+			${timeDivider}
+			${timeTotal}
+		</div>`;
+	}
 
 
 	if (isConfigured('gainSlider', db.props.gainOptions)) {	
-		volumeSlider = `<div 
+		gainSlider = `<div 
 			class="slider slider--gain" 
 			tabindex="0" 
-			${control}="${db.map.fader}" 
+			${controlAttr}="${db.map.fader}" 
 			role="slider"
 			aria-valuemin="0"
 			aria-valuemax="1"
 			aria-valuenow="1"
-			aria-valuetext="Volume 100%"
-			aria-labelledby="ap-volume">
+			aria-valuetext="gain 100%"
+			aria-labelledby="ap-gain">
 				<div class="slider_track">
-					<div class="slider_progress" ${status}="${db.map.faderCurrent}" style="transform: scaleX(1)"></div>
-					<div class="slider_handle" ${status}="${db.map.faderHandle}"></div>
+					<div class="slider_progress" ${statusAttr}="${db.map.faderCurrent}" style="transform: scaleX(1)"></div>
+					<div class="slider_handle" ${statusAttr}="${db.map.faderHandle}"></div>
 				</div>
 			</div>`;
 	}
 	
+
 	if (isConfigured('gainControl', db.props.gainOptions)) {
-		volumeControl = `<button ${control}="${db.map.gain}" aria-labeledby="ap-mute">
+		gainControl = `<button ${controlAttr}="${db.map.gain}" aria-labeledby="ap-mute">
 			<div id="ap-mute" class="sr-text" data-ap-label="gain-label">Mute</div>
 			${db.symbols.gain}
 		</button>`;
 	}
 
-	volume = `<div class="${className}_gain" ${section}="volume">
-		<div id="ap-volume" class="sr-text">Current Volume</div>
-		${volumeControl}
-		${volumeSlider}
+
+	section.gain = `<div class="${classRoot}_gain" ${sectionAttr}="${db.map.sectionGain}">
+		<div id="ap-gain" class="sr-text">Current gain</div>
+		${gainControl}
+		${gainSlider}
 	</div>`;
 
-	player.insertAdjacentHTML('beforeend', metadata);
-	player.insertAdjacentHTML('beforeend', controls);
-	player.insertAdjacentHTML('beforeend', stepControls);
-	player.insertAdjacentHTML('beforeend', progress);
-	player.insertAdjacentHTML('beforeend', volume);
 
+	breakpoints[configuration].forEach((slice) => {
+		sectionOrder.push(section[slice]);
+	});
+
+
+	player.insertAdjacentHTML('beforeend', sectionOrder[0]);
+	player.insertAdjacentHTML('beforeend', sectionOrder[1]);
+	player.insertAdjacentHTML('beforeend', sectionOrder[2]);
+	player.insertAdjacentHTML('beforeend', sectionOrder[3]);
+	player.insertAdjacentHTML('beforeend', sectionOrder[4]);
+	player.insertAdjacentHTML('beforeend', sectionOrder[5]);
 	fragment.appendChild(player);
 
 	return fragment;

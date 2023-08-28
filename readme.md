@@ -59,7 +59,7 @@ To get the player up and running, a JavaScript module is needed and should inclu
 <br>
 
 ## Configuration Details
-There are several options to configure how the player behaves and is displayed. Beyond the container and playlist arguments, authors can add a specific configuration option, custom template, and enable or disable looping.
+There are several options to configure how the player behaves and is displayed. Beyond the container and playlist arguments, authors can add a specific configuration option, a custom template and breakpoints, and enable or disable looping.
 
 <br>
 
@@ -98,6 +98,32 @@ const args = {
 ```
 
 Note, if no `configuration` argument is supplied, the player will default to the `full` configuration.
+
+<br>
+
+#### Adding Breakpoints
+Because the `Tab` order of control elements is important, this audio player allows a user to define custom breakpoints. This allows the player to change its layout and reflow correctly to the situation needed.
+
+To add a breakpoint, simply include the `breakpoint` argument with a key representing the breakpoint value, and the layout order of the player as an array of strings (default shown below):
+
+```javascript
+const args = {
+	'breakpoints': {
+		'768': [
+			'metadata',
+			'main',
+			'previous',
+			'next',
+			'progress',
+			'gain',
+		],
+	}
+}
+```
+
+Note that each breakpoint behaves like the CSS rule `@media (max-width: {value})`, where the object key should be the width in pixels you want to define. If no breakpoint is supplied only the default layout will be used.
+
+
 
 <br>
 

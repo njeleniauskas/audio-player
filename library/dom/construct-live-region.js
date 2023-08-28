@@ -4,7 +4,7 @@ import db from '../../config/data.js';
 function constructLiveRegion() {
 	let fragment = document.createDocumentFragment();
 	let element = document.createElement('div');
-	let className = `${db.props.rootClassName}-message`;
+	let className = `${db.props.classes.root}-message`;
 
 	element.classList.add(className);
 	element.setAttribute('data-ap-status', 'message');

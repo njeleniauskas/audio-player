@@ -1,14 +1,21 @@
 import db from '../../config/data.js';
-import isOperable from '../utilities/is-operable.js';
-import isConfigured from '../utilities/is-configured.js';
 import changePlayState from '../playstate/events.js';
+import getTargetPlayerConfiguration from './get-target-player-configuration.js';
+import updatePlayerLayout from './update-player-layout.js';
 import changeTrack from '../track/events.js';
 import {observeTimeSlider, commitTime, nudgeTime} from '../progress/events-slider-progress.js';
-import toggleGain from '../gain/events-toggle-gain.js';
 import {observeGainSlider, commitGain, nudgeGain} from '../gain/events-slider-gain.js';
+import toggleGain from '../gain/events-toggle-gain.js';
+import isOperable from '../utilities/is-operable.js';
+import isConfigured from '../utilities/is-configured.js';
+import debounce from '../utilities/debounce.js';
 
 function assignEventListeners() {
 	addPlayStateEvents();
+
+	if (db.props.template.totalBreakpoints > 1) {
+		addPlayerReflowEvents();
+	}
 
 	if (isConfigured('stepControls', db.props.stepControls)) {
 		addStepControlEvents();
@@ -35,6 +42,24 @@ function assignEventListeners() {
 		addGainEvents('key');
 	}
 }
+
+
+function addPlayerReflowEvents() {
+	window.addEventListener('resize', debounce(() => {
+		db.status.viewportWidth = window.innerWidth;
+
+		let startingConfig = db.status.playerConfig;
+		let endingConfig = getTargetPlayerConfiguration(db.status.viewportWidth);
+
+		if (startingConfig !== endingConfig) {
+			updatePlayerLayout(endingConfig)
+				.then(() => {
+					db.status.playerConfig = endingConfig;
+				});
+		}
+	}, 200));
+}
+
 
 function addPlayStateEvents() {
 	db.nodes.control[db.map.main].addEventListener('click', () => {

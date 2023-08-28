@@ -13,7 +13,7 @@ const symbols = {
 		<rect y="1" fill="currentColor" width="4" height="14"/>
 		<rect x="8" y="1" fill="currentColor" width="4" height="14"/>
 	</svg>`,
-	prev: `<svg width="12" height="16" viewBox="0 0 12 16">
+	previous: `<svg width="12" height="16" viewBox="0 0 12 16">
 		<polygon fill="currentColor" points="3.341,8 7.671,5.5 12,3 12,8 12,13 7.671,10.5"/>
 		<rect y="3" fill="currentColor" width="2" height="10"/>
 	</svg>`,

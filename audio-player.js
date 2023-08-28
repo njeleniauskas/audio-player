@@ -4,6 +4,7 @@ import loadSymbols from './config/load-symbols.js';
 import observePlayer from './library/dom/observe-player.js';
 import constructLiveRegion from './library/dom/construct-live-region.js';
 import deployFragment from './library/dom/deploy-fragment.js';
+import getTargetPlayerConfiguration from './library/dom/get-target-player-configuration.js';
 import constructPlayerTemplate from './library/dom/construct-player-template.js';
 import fetchAudioData from './library/fetch.js';
 import initializePlayerInterface from './library/dom/initialize-player-interface.js';
@@ -15,6 +16,7 @@ import awaitFileStatus from './library/utilities/await-file-status.js';
 
 class AudioPlayer {
 	constructor(args) {
+		this.db = db;
 		this.init(args);
 	}
 
@@ -27,7 +29,8 @@ class AudioPlayer {
 				deployFragment('message');
 
 				//original: fetch → await → build
-				constructPlayerTemplate(db.props.template);
+				db.status.playerConfig = getTargetPlayerConfiguration(db.status.viewportWidth);
+				constructPlayerTemplate(db.status.playerConfig, db.props.template.function);
 
 				try {
 					initializePlayerInterface();

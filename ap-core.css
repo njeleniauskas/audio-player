@@ -44,7 +44,7 @@
 	pointer-events: none;
 }
 
-[data-ap-section=progress-container] {
+[data-ap-section=progress].has-slider {
 	flex: 1 1 auto;
 }
 

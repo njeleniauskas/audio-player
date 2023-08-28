@@ -4,7 +4,7 @@ function deployFragment(fragment) {
 	switch (fragment) {
 		case 'interface':
 		default: {
-			db.container.appendChild(db.player);
+			db.container.appendChild(db.player.template);
 			db.container.setAttribute('data-status', 'active');
 			
 			db.status.interactable = true; 

@@ -1,11 +1,11 @@
 import db from '../../config/data.js';
 import constructDefaultTemplate from '../../templates/template-default.js';
 
-function constructPlayerTemplate(template) {
+function constructPlayerTemplate(configuration, template) {
 	if (template == null) {
-		db.player = constructDefaultTemplate();
+		db.player.template = constructDefaultTemplate(configuration);
 	} else {
-		db.player = template.call();
+		db.player.template = template.call(configuration);
 	}
 }
 
