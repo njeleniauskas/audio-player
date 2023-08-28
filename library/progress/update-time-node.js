@@ -11,7 +11,7 @@ function updateTimeNode(type) {
 		dataEndpoint = db.data.buffer.length;
 	}
 
-	db.nodes[key].textContent = formatTime(dataEndpoint);
+	db.nodes.status[key].textContent = formatTime(dataEndpoint);
 }
 
 export default updateTimeNode;

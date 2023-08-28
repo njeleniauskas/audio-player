@@ -37,7 +37,7 @@ function assignEventListeners() {
 }
 
 function addPlayStateEvents() {
-	db.nodes[db.map.main].addEventListener('click', () => {
+	db.nodes.control[db.map.main].addEventListener('click', () => {
 		if (isOperable('playstate')) {
 			changePlayState();
 		}
@@ -51,13 +51,13 @@ function addPlayStateEvents() {
 }
 
 function addStepControlEvents() {
-	db.nodes[db.map.previous].addEventListener('click', (event) => {
+	db.nodes.control[db.map.previous].addEventListener('click', (event) => {
 		if (isOperable('step', event)) {
 			changeTrack('previous');
 		}
 	});
 
-	db.nodes[db.map.next].addEventListener('click', (event) => {
+	db.nodes.control[db.map.next].addEventListener('click', (event) => {
 		if (isOperable('step', event)) {
 			changeTrack('next');
 		}
@@ -78,14 +78,14 @@ function addGlobalPointerEvents() {
 		const id = event.pointerId;
 		let isValidNode = (event.target.nodeType === 1);
 		let targetAttribute;
-		let node = db.nodes[db.map.progress];
+		let node = db.nodes.control[db.map.progress];
 
 		if (isValidNode) {
 			targetAttribute = event.target.getAttribute('data-ap-control');
 		}
 		
 		if (isValidNode && targetAttribute === 'fader') {
-			node = db.nodes[db.map.fader];
+			node = db.nodes.control[db.map.fader];
 		}
 		
 		node.releasePointerCapture(id);
@@ -99,7 +99,7 @@ function addGlobalPointerEvents() {
 }
 
 function addProgressEvents() {
-	const node = db.nodes[db.map.progress];
+	const node = db.nodes.control[db.map.progress];
 	
 	node.addEventListener('pointerdown', (event) => {
 		//force pointer capture to capture the slider element
@@ -119,8 +119,8 @@ function addProgressEvents() {
 }
 
 function addGainEvents(context) {
-	const gain = db.nodes[db.map.gain];
-	const fader = db.nodes[db.map.fader];
+	const gain = db.nodes.control[db.map.gain];
+	const fader = db.nodes.control[db.map.fader];
 	
 	if (context === 'slider') {
 		fader.addEventListener('pointerdown', (event) => {

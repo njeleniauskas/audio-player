@@ -30,7 +30,7 @@ function observeTimeSlider(event) {
 		db.handler.setEvent = commitTime;
 
 		//not needed as they are implicitly handled
-		db.nodes[db.map.progress].addEventListener(events[0], db.handler.dragEvent);
+		db.nodes.control[db.map.progress].addEventListener(events[0], db.handler.dragEvent);
 		window.addEventListener(events[1], db.handler.setEvent);
 	}
 }
@@ -55,7 +55,7 @@ function commitTime() {
 		processTimeChange(rawValue);
 	}
 
-	db.nodes[db.map.progress].removeEventListener(events[0], db.handler.dragEvent);
+	db.nodes.control[db.map.progress].removeEventListener(events[0], db.handler.dragEvent);
 	window.removeEventListener(events[1], db.handler.setEvent);
 
 	db.status.observing = false;

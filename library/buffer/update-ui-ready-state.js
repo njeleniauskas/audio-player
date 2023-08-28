@@ -1,22 +1,26 @@
 import db from "../../config/data.js";
 
 function updateUIReadyState(state) {
-	const attribute = db.props.strings.section;
+	const attribute = db.props.strings.readyState;
 	const hidden = db.props.strings.hidden;
 
-	if (db.sections.length > 0 ) {
-		db.sections.forEach((node) => {
-			let isLoader = node.getAttribute(attribute).includes('loader');
+	//what about sections
+	//change sections to ready state nodes, then 
+
+	if (db.nodes.ready.length > 0 ) {
+		db.nodes.ready.forEach((node) => {
+
+			let isPending = node.getAttribute(attribute).includes('pending');
 
 			//should I also include pending states to status nodes?
 			if (state === 'pending') {
-				if (!isLoader) {
+				if (!isPending) {
 					node.setAttribute(hidden, true);
 				} else {
 					node.setAttribute(hidden, false);
 				}
 			} else {
-				if (!isLoader) {
+				if (!isPending) {
 					node.setAttribute(hidden, false);
 				} else {
 					node.setAttribute(hidden, true);

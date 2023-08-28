@@ -40,8 +40,12 @@
 	opacity: 0;
 }
 
-[data-ap-section=loader-main] {
+[data-ap-ready-state=pending] {
 	pointer-events: none;
+}
+
+[data-ap-section=progress-container] {
+	flex: 1 1 auto;
 }
 
 .play-symbols,

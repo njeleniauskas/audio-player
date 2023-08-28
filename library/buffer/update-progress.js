@@ -5,8 +5,8 @@ import updateTimeNode from '../progress/update-time-node.js';
 function updateProgress(context) {
 	if (context === 'text') {
 		if (db.status.buffer === 'pending') {
-			db.nodes[db.map.timeCurrent].textContent = '0:00';
-			db.nodes[db.map.timeTotal].textContent = '0:00';
+			db.nodes.status[db.map.timeCurrent].textContent = '0:00';
+			db.nodes.status[db.map.timeTotal].textContent = '0:00';
 		} else {
 			updateTimeNode('elapsed');
 			updateTimeNode('duration');

@@ -30,7 +30,7 @@ function observeGainSlider(event) {
 	db.handler.dragEvent = seekGain.bind(this);
 	db.handler.setEvent = commitGain;
 
-	db.nodes[db.map.fader].addEventListener(events[0], db.handler.dragEvent);
+	db.nodes.control[db.map.fader].addEventListener(events[0], db.handler.dragEvent);
 	window.addEventListener(events[1], db.handler.setEvent);
 }
 
@@ -51,7 +51,7 @@ function commitGain() {
 		processGainStep();
 	}
 
-	db.nodes[db.map.fader].removeEventListener(events[0], db.handler.dragEvent);
+	db.nodes.control[db.map.fader].removeEventListener(events[0], db.handler.dragEvent);
 	window.removeEventListener(events[1], db.handler.setEvent);
 }
 
@@ -60,7 +60,7 @@ function nudgeGain(event) {
 	let step = 0.05;
 	let direction = 'forward';
 	let value;
-	let startValue = Number(db.nodes.fader.getAttribute('aria-valuenow'));
+	let startValue = Number(db.nodes.control.fader.getAttribute('aria-valuenow'));
 
 	if (valueInArray(['ArrowLeft', 'ArrowDown', 'Home'], event.key)) {
 		direction = 'back';

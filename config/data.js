@@ -17,6 +17,7 @@ const db = {
 		configuration: 'full',
 		loader: 'default',
 		template: null,
+		breakpoints: [],
 		rootClassName: 'audio',
 		strings: {
 			prefix: 'data-ap',
@@ -25,6 +26,7 @@ const db = {
 			label: 'data-ap-label',
 			symbol: 'data-ap-symbol',
 			section: 'data-ap-section',
+			readyState: 'data-ap-ready-state',
 			hidden: 'data-hidden',
 		},
 		offset: 0.05,
@@ -58,20 +60,22 @@ const db = {
 		fader: 'fader',
 		gain: 'gain',
 
-		//control labels
+		//labels for controls
 		mainLabel: 'main-label',
 		gainLabel: 'gain-label',
 
 		//symbol nodes
+		mainLoader: 'loader-main',
 		play: 'play',
 		pause: 'pause',
 		gainZero: 'gain-zero',
 		gainOne: 'gain-one',
 		gainTwo: 'gain-two',
 
-		//section loader nodes, generic, or specific ones
-		sectionLoader: 'loader',
-		sectionLoaderMain: 'loader-main',
+		//section nodes (containers)
+		sectionPlaySymbols: 'symbols-play',
+		sectionProgress: 'progress-container',
+		sectionVolume: 'volume'
 	},
 
 	//interface objects
@@ -79,7 +83,6 @@ const db = {
 	message: undefined,
 	nodes: {},
 	symbols: {},
-	sections: [],
 
 	//dynamic event handlers
 	handler: {

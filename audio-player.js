@@ -42,7 +42,7 @@ class AudioPlayer {
 							processTargetBuffer()
 							.then(() => {
 									updateUIReadyState('ready');
-									db.nodes[db.map.message].textContent = 'Audio Player Ready';
+									db.nodes.status[db.map.message].textContent = 'Audio Player Ready';
 								});
 						});
 				} catch (error) {

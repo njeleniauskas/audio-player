@@ -1,7 +1,7 @@
 import db from '../../config/data.js';
 
 function updateTrackMessage() {
-	const node = db.nodes[db.map.message];
+	const node = db.nodes.status[db.map.message];
 	let messagePrefix = 'Playing ';
 	let messageSuffix = '';
 

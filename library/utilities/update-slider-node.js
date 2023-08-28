@@ -1,13 +1,13 @@
 import db from '../../config/data.js';
 
 function updateSliderNode(scope, unscaledValue) {
-	let bar = db.nodes[db.map.progressCurrent];
-	let handle = db.nodes[db.map.progressHandle];
+	let bar = db.nodes.status[db.map.progressCurrent];
+	let handle = db.nodes.status[db.map.progressHandle];
 	let anchor;
 
 	if (scope === 'fader') {
-		bar = db.nodes[db.map.faderCurrent];
-		handle = db.nodes[db.map.faderHandle];
+		bar = db.nodes.status[db.map.faderCurrent];
+		handle = db.nodes.status[db.map.faderHandle];
 	}
 
 	bar.style = `transform: scaleX(${(unscaledValue)})`;

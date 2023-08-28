@@ -8,7 +8,7 @@ import decodeAudioSource from '../dsp/decode-audio-source.js';
  * status needs to be checked before allowing decoding.
  */
 async function assessBufferStatus(thisBuffer) {
-	const message = db.nodes[db.map.message];
+	const message = db.nodes.status[db.map.message];
 	let index = db.status.targetBuffer;
 	let fileStatus = db.files[index].status;
 	let bufferStatus = db.dsp.buffers[index];

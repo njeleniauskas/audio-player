@@ -11,27 +11,27 @@
 	height: var(--button-height);
 }
 
-[data-ap-section=loader-main] {
+[data-ap-ready-state=pending] {
 	width: 2rem;
 	height: 2rem;
 	transition: 300ms opacity;
 }
 
-[data-ap-section=loader-main][data-hidden=false] {
+[data-ap-ready-state=pending][data-hidden=false] {
 	opacity: 1;
 }
 
 /* animation is not rendered when opacity is 0; okay to be here */
-[data-ap-section=loader-main] circle {
+[data-ap-symbol=loader-main] circle {
 	stroke-dasharray: 150, 200;
 	stroke-dashoffset: 100;
 	transform-origin: 50% 50%;
 	animation: none;
-	animation: mainLoader 1000ms linear infinite;
+	animation: bufferLoader 1000ms linear infinite;
 }
 
 
-@keyframes mainLoader {
+@keyframes bufferLoader {
 	0% {
 		transform: rotate(0deg);
 	}

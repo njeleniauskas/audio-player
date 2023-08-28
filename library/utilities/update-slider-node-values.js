@@ -24,9 +24,9 @@ function updateSliderNodeValues(format) {
 		textString = `${currentTextValue} out of ${totalTimeValue}`;
 	}
 
-	db.nodes[target].setAttribute('aria-valuemax', maxValue);
-	db.nodes[target].setAttribute('aria-valuenow', currentValue);
-	db.nodes[target].setAttribute('aria-valuetext', textString);
+	db.nodes.control[target].setAttribute('aria-valuemax', maxValue);
+	db.nodes.control[target].setAttribute('aria-valuenow', currentValue);
+	db.nodes.control[target].setAttribute('aria-valuetext', textString);
 }
 
 export default updateSliderNodeValues;

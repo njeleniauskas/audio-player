@@ -8,6 +8,7 @@ function constructDefaultTemplate() {
 	let isDisplayed = '';
 
 	let metadata = '';
+	let loader = '';
 	let controls = '';
 	let stepControls = '';
 	let progress = '';
@@ -22,6 +23,7 @@ function constructDefaultTemplate() {
 	let status = db.props.strings.status;
 	let control = db.props.strings.control;
 	let section = db.props.strings.section;
+	let ready = db.props.strings.readyState;
 
 	player.classList.add(className);
 
@@ -32,11 +34,15 @@ function constructDefaultTemplate() {
 		</div>`;
 	}
 
+	loader = `<div ${ready}="pending">
+		${db.symbols.loader}
+	</div>`;
+
 	controls = `<button ${control}="${db.map.main}" aria-labelledby="ap-play">
 		<div id="ap-play" class="sr-text" data-ap-label="main-label">Play Track</div>
 		<div class="play-symbols">
-			${db.symbols.loader}
-			<div class="play-symbols_main" ${section}>
+			${loader}
+			<div class="play-symbols_main" ${section}="symbols-play" ${ready}="ready">
 				${db.symbols.play}
 				${db.symbols.pause}
 			</div>
@@ -51,7 +57,7 @@ function constructDefaultTemplate() {
 			nextStatus = `aria-disabled="false"`;
 		}
 
-		stepControls = `<div class="${className}_step-controls">
+		stepControls = `
 			<button ${control}="${db.map.previous}" aria-disabled="true" aria-labelledby="ap-prev">
 				<div id="ap-prev" class="sr-text">Previous Track</div>
 				${db.symbols.prev}
@@ -59,8 +65,7 @@ function constructDefaultTemplate() {
 			<button ${control}="${db.map.next}" ${nextStatus} aria-labelledby="ap-next">
 				<div id="ap-next" class="sr-text">Next Track</div>
 				${db.symbols.next}
-			</button>
-		</div>`;
+			</button>`;
 	}
 
 	if (isConfigured('progressText', db.props.progressOptions)) {
@@ -70,7 +75,6 @@ function constructDefaultTemplate() {
 	}
 	
 	if (isConfigured('progressSlider', db.props.progressOptions)) {
-		isDisplayed = ` flex-fill`;
 		timeDivider = ``;
 		progressBar = `<div
 			class="slider slider--progress" 
@@ -89,7 +93,7 @@ function constructDefaultTemplate() {
 			</div>`;
 	}
 
-	progress = `<div class="${className}_progress${isDisplayed}">
+	progress = `<div class="${className}_progress" ${section}="progress-container">
 		${timeCurrent}
 		<div id="ap-progress" class="sr-text">Current Progress</div>
 		${progressBar}
@@ -123,10 +127,10 @@ function constructDefaultTemplate() {
 		</button>`;
 	}
 
-	volume = `<div class="${className}_gain">
+	volume = `<div class="${className}_gain" ${section}="volume">
 		<div id="ap-volume" class="sr-text">Current Volume</div>
-		${volumeSlider}
 		${volumeControl}
+		${volumeSlider}
 	</div>`;
 
 	player.insertAdjacentHTML('beforeend', metadata);

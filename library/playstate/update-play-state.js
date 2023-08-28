@@ -11,22 +11,22 @@ function updatePlayState() {
 function updateToPause() {
 	let hidden = db.props.strings.hidden;
 
-	db.nodes[db.map.play].setAttribute(hidden, true);
-	db.nodes[db.map.mainLabel].textContent = 'Pause Track';
+	db.nodes.symbol[db.map.play].setAttribute(hidden, true);
+	db.nodes.label[db.map.mainLabel].textContent = 'Pause Track';
 
-	if (db.nodes[db.map.pause].getAttribute(hidden) === 'true') {
-		db.nodes[db.map.pause].setAttribute(hidden, false);
+	if (db.nodes.symbol[db.map.pause].getAttribute(hidden) === 'true') {
+		db.nodes.symbol[db.map.pause].setAttribute(hidden, false);
 	}
 }
 
 function updateToPlay() {
 	let hidden = db.props.strings.hidden;
 
-	db.nodes[db.map.pause].setAttribute(hidden, true);
-	db.nodes[db.map.mainLabel].textContent = 'Play Track';
+	db.nodes.symbol[db.map.pause].setAttribute(hidden, true);
+	db.nodes.label[db.map.mainLabel].textContent = 'Play Track';
 
-	if (db.nodes[db.map.play].getAttribute(hidden) === 'true') {
-		db.nodes[db.map.play].setAttribute(hidden, false);
+	if (db.nodes.symbol[db.map.play].getAttribute(hidden) === 'true') {
+		db.nodes.symbol[db.map.play].setAttribute(hidden, false);
 	}
 }
 

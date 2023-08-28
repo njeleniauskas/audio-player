@@ -1,19 +1,30 @@
 import db from '../../config/data.js';
 import deployFragment from './deploy-fragment.js';
-import gatherNodes from './gather-nodes.js';
+//import gatherNodes from './gather-nodes.js';
 import assignEventListeners from './user-events.js';
-import getNodesforCollection from '../utilities/get-nodes-for-collection.js';
+import getNodesForObjectCollection from '../utilities/get-nodes-for-object-collection.js';
+import getNodesForCollection from '../utilities/get-nodes-for-collection.js';
 
 /* This function returns a promise so that the first buffer process does not
  * occur until the interface fully exists on the DOM .
  */
 function initializePlayerInterface() {
-	const section = db.props.strings.section;
-	const sectionString = `[${section}]`;
+	const statusSelector = db.props.strings.status;
+	const controlSelector = db.props.strings.control;
+	const labelSelector = db.props.strings.label;
+	const symbolSelector = db.props.strings.symbol;
+	const sectionSelector = `[${db.props.strings.section}]`;
+	const readySelector = `[${db.props.strings.readyState}]`;
 
 	deployFragment('interface');
-	gatherNodes();
-	db.sections = getNodesforCollection(db.container, sectionString);
+
+	db.nodes.status = getNodesForObjectCollection(db.container, statusSelector);
+	db.nodes.control = getNodesForObjectCollection(db.container, controlSelector);
+	db.nodes.label = getNodesForObjectCollection(db.container, labelSelector);
+	db.nodes.symbol = getNodesForObjectCollection(db.container, symbolSelector);
+	db.nodes.section = getNodesForCollection(db.container, sectionSelector);
+	db.nodes.ready = getNodesForCollection(db.container, readySelector);
+
 	assignEventListeners();
 	
 	return new Promise((resolve) => {

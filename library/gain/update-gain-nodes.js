@@ -22,7 +22,7 @@ function updateGainStatus() {
 		string = 'Mute';
 	}
 	
-	db.nodes[db.map.gainLabel].textContent = string;
+	db.nodes.label[db.map.gainLabel].textContent = string;
 }
 
 function updateGainSymbol() {
@@ -31,24 +31,24 @@ function updateGainSymbol() {
 	let hidden = 'data-hidden';
 
 	if (gain > 0) {
-		if (db.nodes[db.map.gainZero].getAttribute(hidden) === 'false') {
-			db.nodes[db.map.gainZero].setAttribute(hidden, true);
+		if (db.nodes.symbol[db.map.gainZero].getAttribute(hidden) === 'false') {
+			db.nodes.symbol[db.map.gainZero].setAttribute(hidden, true);
 		}
 
-		if (db.nodes[db.map.gainOne].getAttribute(hidden) === 'true') {
-			db.nodes[db.map.gainOne].setAttribute(hidden, false);
+		if (db.nodes.symbol[db.map.gainOne].getAttribute(hidden) === 'true') {
+			db.nodes.symbol[db.map.gainOne].setAttribute(hidden, false);
 		}
 	} else {
-		db.nodes[db.map.gainZero].setAttribute(hidden, false);
-		db.nodes[db.map.gainOne].setAttribute(hidden, true);
+		db.nodes.symbol[db.map.gainZero].setAttribute(hidden, false);
+		db.nodes.symbol[db.map.gainOne].setAttribute(hidden, true);
 	}
 
 	if (gain > threshold) {
-		if (db.nodes[db.map.gainTwo].getAttribute(hidden) === 'true') {
-			db.nodes[db.map.gainTwo].setAttribute(hidden, false);
+		if (db.nodes.symbol[db.map.gainTwo].getAttribute(hidden) === 'true') {
+			db.nodes.symbol[db.map.gainTwo].setAttribute(hidden, false);
 		}
 	} else {
-		db.nodes[db.map.gainTwo].setAttribute(hidden, true);
+		db.nodes.symbol[db.map.gainTwo].setAttribute(hidden, true);
 	}
 }
 

@@ -2,9 +2,8 @@ import db from './data.js';
 
 //theres no seed data here
 const dataSymbol = db.props.strings.symbol;
-const dataSection = db.props.strings.section;
 const symbols = {
-	loader: `<svg viewBox="0 0 40 40" ${dataSection}="${db.map.sectionLoaderMain}" fill="none">
+	loader: `<svg viewBox="0 0 40 40" ${dataSymbol}="${db.map.mainLoader}" fill="none">
 		<circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
 	</svg>`,
 	play: `<svg width="12" height="16" viewBox="0 0 12 16" ${dataSymbol}="${db.map.play}" data-hidden="false">

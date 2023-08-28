@@ -1,4 +1,4 @@
-function getNodesforCollection(container, string) {
+function getNodesForCollection(container, string) {
 	let result;
 
 	result = Array.from(container.querySelectorAll(string));
@@ -6,4 +6,4 @@ function getNodesforCollection(container, string) {
 	return result;
 }
 
-export default getNodesforCollection;
+export default getNodesForCollection;
