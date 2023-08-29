@@ -28,7 +28,7 @@ The player has two layers of CSS. The `ap-core.css` file contains all of the req
 <link rel="stylesheet" href="ap-design.css">
 ```
 
-If you author your own CSS, you will need to make sure the styles match the player template being used by the player.
+If you author your own CSS, you will need to make sure the styles match the template being used by the player.
 
 <br>
 
@@ -114,7 +114,7 @@ Note, if no `configuration` argument is supplied, the player will default to the
 <br>
 
 #### Adding Breakpoints
-If needed, users can define custom breakpoints for this player. This allows the player to change its layout and reflow correctly, maintaining the logical `Tab` order needed.
+If needed, custom breakpoints can be defined for this player. This allows the player to change its layout and reflow correctly, maintaining the logical `Tab` order needed.
 
 To add a breakpoint, simply include the `breakpoint` argument with a key representing the breakpoint value, and the layout order of the player as an array of strings (default shown below):
 
@@ -194,7 +194,7 @@ params.breakpoints
 ```javascript
 //classes to help automate naming
 params.classes.root
-params.classes.hasSlider //not helpful
+params.classes.hasSlider //useful until CSS :has() is better supported
 ```
 ```javascript
 //strings representing data attributes
@@ -257,10 +257,19 @@ params.totalTracks
 //the target layout (breakpoint key) the template should build
 params.targetLayout
 ```
+
+<br>
+
+Using the `isConfigured()` function requires a little knowledge. The function takes 2 arguments and will return a boolean (`true/false`). To use correctly, the **first** argument is the functionality being considered, and the **second**, the option being tested.
+
 ```javascript
-//a helper function to control if an HTML section is rendered (based on player config)
-params.functions.isConfigured
+//An example, testing if the gain button is available
+if (params.functions.isConfigured('gainControl', params.options.gainOptions)) {
+	//build the appropriate html template literal
+}
 ```
+
+The list of functions that can be tested are (1st argument): `showMetadata`, `stepControls`, `progressText`, `progressSlider`, `gainSlider`, and `gainControl`.
 
 <br>
 
