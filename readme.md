@@ -58,6 +58,18 @@ To get the player up and running, a JavaScript module is needed and should inclu
 
 <br>
 
+#### Operating the Player
+When operating the player, the following keys may be used for various controls:
+- Play/Pause: `Spacebar`, `MediaPlayPause`[^2]
+- Track Controls: `MediaKeyPrevious`, `MediaKeyNext`
+- Progress: `ArrowLeft`, `ArrowRight`, `Home`, and `End`
+- Gain Slider: `ArrowLeft` and `ArrowRight`, `ArrowUp` and `ArrowDown`, or `Home` and `End`
+- Gain Toggle: `M`
+
+[^2]: The `MediaPlayPause` key will not work until a user has intearacted with the DOM in some way.
+
+<br>
+
 ## Configuration Details
 There are several options to configure how the player behaves and is displayed. Beyond the container and playlist arguments, authors can add a specific configuration option, a custom template and breakpoints, and enable or disable looping.
 
@@ -102,7 +114,7 @@ Note, if no `configuration` argument is supplied, the player will default to the
 <br>
 
 #### Adding Breakpoints
-Because the `Tab` order of control elements is important, this audio player allows a user to define custom breakpoints. This allows the player to change its layout and reflow correctly to the situation needed.
+If needed, users can define custom breakpoints for this player. This allows the player to change its layout and reflow correctly, maintaining the logical `Tab` order needed.
 
 To add a breakpoint, simply include the `breakpoint` argument with a key representing the breakpoint value, and the layout order of the player as an array of strings (default shown below):
 
@@ -121,9 +133,7 @@ const args = {
 }
 ```
 
-Note that each breakpoint behaves like the CSS rule `@media (max-width: {value})`, where the object key should be the width in pixels you want to define. If no breakpoint is supplied only the default layout will be used.
-
-
+Note that each breakpoint behaves like the CSS rule `@media (max-width: {value})`, where the object key should be the width in pixels you want to define, and the array values are the sections of the player that can be re-ordered. If no breakpoint is supplied only the default layout will be used.
 
 <br>
 
@@ -132,7 +142,7 @@ By default, looping is set to `false`. However, if you wish continue playing aft
 
 <br>
 
-#### Player Template
+## Building a Player Template
 If desired, a custom template can be passed to the player as an argument. To work properly, the `template` argument should be passed a function that returns a document fragment. An example of a template skeleton being passed to the player is as follows:
 
 ```javascript
@@ -151,19 +161,112 @@ const args = {
 }
 ```
 
-*Note: a more detailed explanation of the usable data attributes and structures you can use will be written in the future.*
+<br>
+
+To help building a custom template, authors can include a parameter in the function statement. This gives a user access to all of the classes, attributes, strings, and functions the default player template uses.
+
+```javascript
+const playerTemplate = function(params) {
+	let fragment = document.createDocumentFragment();
+	let player = document.createElement('div');
+
+	//adding the root class to an element:
+	player.classList.add(params.classes.root);
+}
+```
 
 <br>
 
-## Operating the Player
-When operating the player, the following keys may be used for various controls:
-- Play/Pause: `Spacebar`, `MediaPlayPause`[^2]
-- Track Controls: `MediaKeyPrevious`, `MediaKeyNext`
-- Progress: `ArrowLeft`, `ArrowRight`, `Home`, and `End`
-- Gain Slider: `ArrowLeft` and `ArrowRight`, `ArrowUp` and `ArrowDown`, or `Home` and `End`
-- Gain Toggle: `M`
+There are 9 types of available parameters. Below are the available options users can choose from:
 
-[^2]: The `MediaPlayPause` key will not work until a user has intearacted with the DOM in some way.
+```javascript
+//player configuration options (to check available functionality)
+params.options.showMetadata
+params.options.stepControls
+params.options.progressOptions
+params.options.gainOptions
+params.options.loop //not helpful
+```
+```javascript
+//breakpoints to build the right layout
+params.breakpoints
+```
+```javascript
+//classes to help automate naming
+params.classes.root
+params.classes.hasSlider //not helpful
+```
+```javascript
+//strings representing data attributes
+params.attributes.prefix
+params.attributes.status
+params.attributes.control
+params.attributes.label
+params.attributes.symbol
+params.attributes.section
+params.attributes.readyState
+params.attributes.hidden
+```
+```javascript
+//strings representing data attribute values
+params.strings.title
+params.strings.subtitle
+params.strings.artist
+params.strings.timeCurrent
+params.strings.timeTotal
+params.strings.progressCurrent
+params.strings.progressHandle
+params.strings.gainCurrent
+params.strings.gainHandle
+params.strings.message
+params.strings.main
+params.strings.previous
+params.strings.next
+params.strings.progress
+params.strings.gainSlider
+params.strings.gain
+params.strings.mainLabel
+params.strings.gainLabel
+params.strings.mainLoader
+params.strings.play
+params.strings.pause
+params.strings.gainZero
+params.strings.gainOne
+params.strings.gainTwo
+params.strings.sectionMeta
+params.strings.sectionMain
+params.strings.sectionPrev
+params.strings.sectionNext
+params.strings.sectionProgress
+params.strings.sectionGain
+```
+```javascript
+//available SVG symbols for use
+params.symbols.loader
+params.symbols.play
+params.symbols.pause
+params.symbols.previous
+params.symbols.next
+params.symbols.gain
+```
+```javascript
+//the total number of tracks; helper to disable step controls with aria-disabled
+params.totalTracks
+```
+```javascript
+//the target layout (breakpoint key) the template should build
+params.targetLayout
+```
+```javascript
+//a helper function to control if an HTML section is rendered (based on player config)
+params.functions.isConfigured
+```
+
+<br>
+
+*Note For more details, see the default template for how these parameters are used in `/templates/template-default.js`.*
+
+
 
 <br>
 
