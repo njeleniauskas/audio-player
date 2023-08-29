@@ -1,6 +1,8 @@
 import db from '../../config/data.js';
 
 function observePlayer() {
+	const container = db.nodes.container;
+
 	return new Promise((resolve) => {
 		let observer;
 		let options = {
@@ -18,7 +20,7 @@ function observePlayer() {
 			});
 		}, options);
 
-		observer.observe(db.container);
+		observer.observe(container);
 	});
 }
 

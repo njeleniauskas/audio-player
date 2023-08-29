@@ -30,7 +30,7 @@ class AudioPlayer {
 
 				//original: fetch → await → build
 				db.status.playerConfig = getTargetPlayerConfiguration(db.status.viewportWidth);
-				constructPlayerTemplate(db.status.playerConfig, db.props.template.function);
+				constructPlayerTemplate(db.config.template);
 
 				try {
 					initializePlayerInterface();

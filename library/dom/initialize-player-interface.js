@@ -19,13 +19,13 @@ function initializePlayerInterface() {
 
 	deployFragment('interface');
 
-	db.nodes.status = getNodesForObjectCollection(db.container, statusSelector);
-	db.nodes.control = getNodesForObjectCollection(db.container, controlSelector);
-	db.nodes.label = getNodesForObjectCollection(db.container, labelSelector);
-	db.nodes.symbol = getNodesForObjectCollection(db.container, symbolSelector);
-	db.nodes.section = getNodesForObjectCollection(db.container, sectionSelector);
-	db.nodes.ready = getNodesForCollection(db.container, readySelector);
-	db.player.node = db.container.querySelector(rootClass);
+	db.nodes.player = db.nodes.container.querySelector(rootClass);
+	db.nodes.status = getNodesForObjectCollection(db.nodes.container, statusSelector);
+	db.nodes.control = getNodesForObjectCollection(db.nodes.container, controlSelector);
+	db.nodes.label = getNodesForObjectCollection(db.nodes.container, labelSelector);
+	db.nodes.symbol = getNodesForObjectCollection(db.nodes.container, symbolSelector);
+	db.nodes.section = getNodesForObjectCollection(db.nodes.container, sectionSelector);
+	db.nodes.ready = getNodesForCollection(db.nodes.container, readySelector);
 
 	assignEventListeners();
 	

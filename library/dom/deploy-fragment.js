@@ -1,11 +1,13 @@
 import db from '../../config/data.js';
 
 function deployFragment(fragment) {
+	const container = db.nodes.container;
+
 	switch (fragment) {
 		case 'interface':
 		default: {
-			db.container.appendChild(db.player.template);
-			db.container.setAttribute('data-status', 'active');
+			container.appendChild(db.fragments.player);
+			container.setAttribute('data-status', 'active');
 			
 			db.status.interactable = true; 
 			
@@ -13,7 +15,7 @@ function deployFragment(fragment) {
 		}
 		
 		case 'message': {
-			db.container.appendChild(db.message);
+			container.appendChild(db.fragments.message);
 			
 			break;
 		}

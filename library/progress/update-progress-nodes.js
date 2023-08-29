@@ -5,11 +5,11 @@ import updateSliderNodeValues from '../utilities/update-slider-node-values.js';
 import isConfigured from '../utilities/is-configured.js';
 
 function updateProgressNodes(unscaledValue) {
-	if (isConfigured('progressText', db.props.progressOptions)) {
+	if (isConfigured('progressText', db.config.options.progressOptions)) {
 		updateTimeNode('elapsed');
 	}
 
-	if (isConfigured('progressSlider', db.props.progressOptions)) {
+	if (isConfigured('progressSlider', db.config.options.progressOptions)) {
 		updateSliderNode('progress', unscaledValue);
 		updateSliderNodeValues('time');
 	}

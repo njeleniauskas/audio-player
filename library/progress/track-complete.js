@@ -4,7 +4,7 @@ import resetPlayer from '../dsp/reset-player.js';
 
 function trackComplete() {
 	if (db.status.targetBuffer === db.data.tracks - 1) {
-		if (db.props.loop) {
+		if (db.config.options.loop) {
 			changeTrack('next');
 		} else {
 			resetPlayer();

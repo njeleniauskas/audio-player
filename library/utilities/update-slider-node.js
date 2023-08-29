@@ -5,9 +5,9 @@ function updateSliderNode(scope, unscaledValue) {
 	let handle = db.nodes.status[db.map.progressHandle];
 	let anchor;
 
-	if (scope === 'fader') {
-		bar = db.nodes.status[db.map.faderCurrent];
-		handle = db.nodes.status[db.map.faderHandle];
+	if (scope === 'gain') {
+		bar = db.nodes.status[db.map.gainCurrent];
+		handle = db.nodes.status[db.map.gainHandle];
 	}
 
 	bar.style = `transform: scaleX(${(unscaledValue)})`;

@@ -13,7 +13,7 @@ function constructLiveRegion() {
 	element.textContent = 'Constructing Audio Player';
 	fragment.appendChild(element);
 
-	db.message = fragment;
+	db.fragments.message = fragment;
 }
 
 export default constructLiveRegion;

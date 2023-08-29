@@ -1,8 +1,8 @@
 import db from "../../config/data.js";
 
 async function updatePlayerLayout(breakpoint) {
-	const newOrder = db.props.template.breakpoints[breakpoint];
-	const player = db.player.node;
+	const newOrder = db.config.breakpoints[breakpoint];
+	const player = db.nodes.player;
 	
 	newOrder.forEach((string) => {
 		player.appendChild(db.nodes.section[string]);

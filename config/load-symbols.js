@@ -3,7 +3,7 @@ import symbols from './symbols.js';
 
 function loadSymbols() {
 	for (const key in symbols) {
-		db.symbols[key] = symbols[key];
+		db.fragments.symbols[key] = symbols[key];
 	}
 }
 

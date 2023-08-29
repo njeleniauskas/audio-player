@@ -1,11 +1,14 @@
 import db from '../../config/data.js';
+import getPlayerTemplateArgs from '../../config/get-player-template-args.js';
 import constructDefaultTemplate from '../../templates/template-default.js';
 
-function constructPlayerTemplate(configuration, template) {
+function constructPlayerTemplate(template) {
+	const args = getPlayerTemplateArgs();
+
 	if (template == null) {
-		db.player.template = constructDefaultTemplate(configuration);
+		db.fragments.player = constructDefaultTemplate(args);
 	} else {
-		db.player.template = template.call(configuration);
+		db.fragments.player = template.call(args);
 	}
 }
 

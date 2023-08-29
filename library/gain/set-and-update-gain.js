@@ -5,7 +5,7 @@ import setSliderData from '../utilities/set-slider-data.js';
 function setAndUpdateGain(clientX) {
 	let rawValue = getSliderValue(clientX);
 
-	setSliderData('fader', rawValue);
+	setSliderData('gain', rawValue);
 	updateGainNodes();
 }
 

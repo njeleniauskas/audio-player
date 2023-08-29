@@ -9,27 +9,31 @@
  *
  */
 const db = {
-	container: null,
-	playlist: null,
-	files: [],
-
-	props: {
-		configuration: 'full',
-		loader: 'default',
-		template: {
-			function: null,
-			breakpoints: {
-				"default": [
-					'metadata',
-					'main',
-					'previous',
-					'next',
-					'progress',
-					'gain'
-				]
-			},
-			totalBreakpoints: 1
+	config: {
+		setup: 'full',
+		options: {
+			showMetadata: false,
+			stepControls: false,
+			progressOptions: 'slider',
+			gainOptions: 'none',
+			loop: false
 		},
+		template: null,
+		breakpoints: {
+			"default": [
+				'metadata',
+				'main',
+				'previous',
+				'next',
+				'progress',
+				'gain'
+			]
+		}
+	},
+
+
+	//static props
+	props: {
 		classes: {
 			root: 'audio-player',
 			hasSlider: 'has-slider'
@@ -45,26 +49,21 @@ const db = {
 			hidden: 'data-hidden'
 		},
 		offset: 0.05,
-
-		//player config props (smart defaults)
-		showMetadata: false,
-		stepControls: false,
-		progressOptions: 'slider',
-		gainOptions: 'none',
-		loop: false
 	},
 
+
+	//data attribute string mapping
 	map: {
 		//status nodes
 		title: 'title',
-		subtitle: 'subtitle',
+		subtitle: 'subtitle', //not currently in use
 		artist: 'artist',
 		timeCurrent: 'time-current',
 		timeTotal: 'time-total',
 		progressCurrent: 'progress-current',
 		progressHandle: 'progress-handle',
-		faderCurrent: 'gain-current',
-		faderHandle: 'gain-handle',
+		gainCurrent: 'gain-current',
+		gainHandle: 'gain-handle',
 		message: 'message',
 
 		//control nodes
@@ -72,7 +71,7 @@ const db = {
 		previous: 'previous',
 		next: 'next',
 		progress: 'progress',
-		fader: 'fader',
+		gainSlider: 'gain-slider',
 		gain: 'gain',
 
 		//labels for controls
@@ -96,28 +95,42 @@ const db = {
 		sectionGain: 'gain'
 	},
 
-	//interface objects
-	player: {
-		template: undefined,
-		node: undefined
-	},
-	message: undefined,
-	nodes: {},
-	symbols: {},
 
-	//dynamic event handlers
+	//document fragments and important ui nodes
+	fragments: {
+		message: undefined,
+		player: undefined,
+		symbols: {}
+	},
+
+	nodes: {
+		container: null,
+		message: undefined,
+		player: undefined,
+
+		section: undefined,
+		ready: undefined,
+
+		control: undefined,
+		status: undefined,
+		symbol: undefined,
+		label: undefined,
+	},
+
+
+	//dynamic event handlers and status monitors
 	handler: {
 		dragEvent: null,
 		stepEvent: null,
 		setEvent: null
 	},
 
-	//status monitors
 	monitor: {
 		fetch: null,
 		time: null,
 		gain: null
 	},
+
 
 	//digital signal processing endpoints
 	dsp: {
@@ -127,7 +140,10 @@ const db = {
 		gain: undefined
 	},
 
-	//operational data
+
+	//core and operational data
+	playlist: null,
+	files: [],
 	data: {
 		tracks: 0,
 		buffer: {
@@ -150,6 +166,8 @@ const db = {
 		}
 	},
 
+
+	//player/environment status data
 	status: {
 		initial: true,
 		unlocked: false,
@@ -162,6 +180,7 @@ const db = {
 		stepping: false,
 		observing: false,
 		viewportWidth: window.innerWidth,
+		activeControlAttribute: null,
 		playerConfig: 'default'
 	}
 };

@@ -1,38 +1,50 @@
 import db from './data.js';
+import getPlayerTemplateArgs from './get-player-template-args.js';
 import setPlayerByPreset from './set-player-by-preset.js';
 
-function configurePlayer(args) {
-	const className = '.'.concat(args.container);
-	db.container = document.querySelector(className) || null;
-	db.playlist = args.playlist || null;
-	db.data.tracks = args.playlist.length;
-	db.props.template.function = args.template || null;
-	db.props.loop = args.loop || false;
-	db.container.setAttribute('data-status', 'pending');
+function configurePlayer(params) {
+	const className = '.'.concat(params.container);
+	let args = {};
 
-	if (args.breakpoints !== undefined) {
-		let keys = Object.keys(args.breakpoints);
+	db.nodes.container = document.querySelector(className) || null;
+	db.nodes.container.setAttribute('data-status', 'pending');
+	db.playlist = params.playlist || null;
+	db.data.tracks = params.playlist.length;
+	db.config.template = null;
+	db.config.options.loop = params.loop || false;
+
+
+	if (params.template !== undefined) {
+		args = getPlayerTemplateArgs();
+
+		db.config.template = params.template.bind(this, args);
+	}
+
+
+	if (params.breakpoints !== undefined) {
+		let keys = Object.keys(params.breakpoints);
 
 		keys.forEach((key) => {
-			db.props.template.breakpoints[key] = args.breakpoints[key];
+			db.config.breakpoints[key] = params.breakpoints[key];
 		});
-
-		db.props.template.totalBreakpoints = Object.keys(db.props.template.breakpoints).length;
 	}
 
-	if (args.configuration === undefined) {
-		args.configuration = 'full';
+
+	if (params.config === undefined) {
+		db.config.setup = 'full';
 	}
 
-	if (typeof args.configuration === 'string' && args.configuration !== null) {
-		setPlayerByPreset(args.configuration);
+
+	if (typeof params.configuration === 'string' && params.configuration !== null) {
+		setPlayerByPreset(params.configuration);
 	} else {
-		const config = args.configuration;
+		const options = db.config.options;
+		const config = params.configuration;
 
-		db.props.showMetadata = config.showMetadata || db.props.showMetadata;
-		db.props.stepControls = config.stepControls || db.props.stepControls;
-		db.props.progressOptions = config.progressOptions || db.props.progressOptions;
-		db.props.gainOptions = config.gainOptions || db.props.gainOptions;
+		options.showMetadata = config.showMetadata || options.showMetadata;
+		options.stepControls = config.stepControls || options.stepControls;
+		options.progressOptions = config.progressOptions || options.progressOptions;
+		options.gainOptions = config.gainOptions || options.gainOptions;
 	}
 }
 

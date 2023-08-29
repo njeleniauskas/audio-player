@@ -6,24 +6,24 @@ import isConfigured from '../utilities/is-configured.js';
 import updateStepControls from '../track/update-step-controls.js';
 
 function updateInterface() {
-	if (isConfigured('showMetadata', db.props.showMetadata)) {
+	if (isConfigured('showMetadata', db.config.options.showMetadata)) {
 		updateMetadata();
 	}
 
-	if (isConfigured('progressText', db.props.progressOptions)) {
+	if (isConfigured('progressText', db.config.options.progressOptions)) {
 		updateProgress('text');
 	}
 	
-	if (isConfigured('progressSlider', db.props.progressOptions)) {
+	if (isConfigured('progressSlider', db.config.options.progressOptions)) {
 		updateProgress('slider');
 	}
 
-	if (isConfigured('stepControls', db.props.stepControls)) {
+	if (isConfigured('stepControls', db.config.options.stepControls)) {
 		updateStepControls();
 	}
 
-	if (isConfigured('gainSlider', db.props.gainOptions)) {
-		updateSliderNode('fader', db.data.gain.current);
+	if (isConfigured('gainSlider', db.config.options.gainOptions)) {
+		updateSliderNode('gain', db.data.gain.current);
 	}
 }
 

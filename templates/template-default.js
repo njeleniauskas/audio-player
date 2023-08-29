@@ -1,12 +1,30 @@
-import db from '../config/data.js';
-import isConfigured from '../library/utilities/is-configured.js';
+/*
+	The default template is set up exactly the same way a custom template needs to. So the internal objects and function calls are exact (if you plan on building your own template).
 
-function constructDefaultTemplate(configuration) {
+	For reference, the following params are available for use. Note that access to data in the db object has been restricted to a smaller dataset (necessary scope only).
+
+	params = {
+		options: db.config.options,
+		breakpoints: db.config.breakpoints,
+		classes: db.props.classes,
+		attributes: db.props.strings,
+		strings: db.map,
+		symbols: db.fragments.symbols,
+		totalTracks: db.data.tracks,
+		targetLayout: db.status.playerConfig,
+		functions: {
+			isConfigured: isConfigured
+		}
+	};
+
+	In order to comply with the breakpoint functionality, the document fragment must append each player section in the correct order for the initial breakpoint to be rendered correctly.
+*/
+function constructDefaultTemplate(params) {
 	let fragment = document.createDocumentFragment();
 	let player = document.createElement('div');
-	let classRoot = db.props.classes.root;
-	let classHasSlider = db.props.classes.hasSlider;
-	let breakpoints = db.props.template.breakpoints;
+	let classRoot = params.classes.root;
+	let classHasSlider = params.classes.hasSlider;
+	let breakpoints = params.breakpoints;
 
 	let section = {
 		'metadata': '',
@@ -27,77 +45,76 @@ function constructDefaultTemplate(configuration) {
 	let gainControl = '';
 
 
-	let statusAttr = db.props.strings.status;
-	let controlAttr = db.props.strings.control;
-	let sectionAttr = db.props.strings.section;
-	let readyAttr = db.props.strings.readyState;
+	let statusAttr = params.attributes.status;
+	let controlAttr = params.attributes.control;
+	let sectionAttr = params.attributes.section;
+	let readyAttr = params.attributes.readyState;
 
 
 	player.classList.add(classRoot);
 
 
-	if (isConfigured('showMetadata', db.props.showMetadata)) {
-		section.metadata = `<div class="${classRoot}_metadata" ${sectionAttr}="${db.map.sectionMeta}">
-			<div class="${classRoot}_title" ${statusAttr}="${db.map.title}">-</div>
-			<div class="${classRoot}_artist" ${statusAttr}="${db.map.artist}">-</div>
+	if (params.functions.isConfigured('showMetadata', params.options.showMetadata)) {
+		section.metadata = `<div class="${classRoot}_metadata" ${sectionAttr}="${params.strings.sectionMeta}">
+			<div class="${classRoot}_title" ${statusAttr}="${params.strings.title}">-</div>
+			<div class="${classRoot}_artist" ${statusAttr}="${params.strings.artist}">-</div>
 		</div>`;
 	}
 
 
 	loader = `<div ${readyAttr}="pending">
-		${db.symbols.loader}
+		${params.symbols.loader}
 	</div>`;
 
-	section.main = `<button ${controlAttr}="${db.map.main}" ${sectionAttr}="${db.map.sectionMain}" aria-labelledby="ap-play">
+	section.main = `<button ${controlAttr}="${params.strings.main}" ${sectionAttr}="${params.strings.sectionMain}" aria-labelledby="ap-play">
 		<div id="ap-play" class="sr-text" data-ap-label="main-label">Play Track</div>
 		<div class="play-symbols">
 			${loader}
 			<div class="play-symbols_main" ${readyAttr}="ready">
-				${db.symbols.play}
-				${db.symbols.pause}
+				${params.symbols.play}
+				${params.symbols.pause}
 			</div>
 		</div>
 	</button>`;
 
 
-	if (isConfigured('stepControls', db.props.stepControls)) {
-		let tracks = db.data.tracks;
+	if (params.functions.isConfigured('stepControls', params.options.stepControls)) {
 		let nextStatus = ``;
 
-		if (tracks > 1) {
+		if (params.totalTracks > 1) {
 			nextStatus = `aria-disabled="false"`;
 		}
 
 		section.previous = `
-			<button ${controlAttr}="${db.map.previous}" ${sectionAttr}="${db.map.sectionPrev}" aria-disabled="true" aria-labelledby="ap-previous">
+			<button ${controlAttr}="${params.strings.previous}" ${sectionAttr}="${params.strings.sectionPrev}" aria-disabled="true" aria-labelledby="ap-previous">
 				<div id="ap-previous" class="sr-text">previousious Track</div>
-				${db.symbols.previous}
+				${params.symbols.previous}
 			</button>
 		`;
 		section.next = `
-			<button ${controlAttr}="${db.map.next}" ${sectionAttr}="${db.map.sectionNext}" ${nextStatus} aria-labelledby="ap-next">
+			<button ${controlAttr}="${params.strings.next}" ${sectionAttr}="${params.strings.sectionNext}" ${nextStatus} aria-labelledby="ap-next">
 				<div id="ap-next" class="sr-text">Next Track</div>
-				${db.symbols.next}
+				${params.symbols.next}
 			</button>`;
 	}
 
 
-	if (isConfigured('progressSlider', db.props.progressOptions)) {
+	if (params.functions.isConfigured('progressSlider', params.options.progressOptions)) {
 		progressBarClass = ` ${classHasSlider}`;
 	}
 
-	if (isConfigured('progressText', db.props.progressOptions)) {
-		timeCurrent = `<div class="player-time-current" ${statusAttr}="${db.map.timeCurrent}">-:--</div>`;
+	if (params.functions.isConfigured('progressText', params.options.progressOptions)) {
+		timeCurrent = `<div class="player-time-current" ${statusAttr}="${params.strings.timeCurrent}">-:--</div>`;
 		timeDivider = `<span>/</span>`;
-		timeTotal = `<div class="player-time-total" ${statusAttr}="${db.map.timeTotal}">-:--</div>`;
+		timeTotal = `<div class="player-time-total" ${statusAttr}="${params.strings.timeTotal}">-:--</div>`;
 	}
 	
-	if (isConfigured('progressSlider', db.props.progressOptions)) {
+	if (params.functions.isConfigured('progressSlider', params.options.progressOptions)) {
 		timeDivider = ``;
 		progressBar = `<div
 			class="slider slider--progress" 
 			tabindex="0" 
-			${controlAttr}="${db.map.progress}" 
+			${controlAttr}="${params.strings.progress}" 
 			role="slider"
 			aria-valuemin="0"
 			aria-valuemax="0"
@@ -105,15 +122,15 @@ function constructDefaultTemplate(configuration) {
 			aria-valuetext="0 of 0 seconds played"
 			aria-labelledby="ap-progress">
 				<div class="slider_track">
-					<div class="slider_progress" ${statusAttr}="${db.map.progressCurrent}" style="transform: scaleX(0)"></div>
-					<div class="slider_handle" ${statusAttr}="${db.map.progressHandle}"></div>
+					<div class="slider_progress" ${statusAttr}="${params.strings.progressCurrent}" style="transform: scaleX(0)"></div>
+					<div class="slider_handle" ${statusAttr}="${params.strings.progressHandle}"></div>
 				</div>
 			</div>`;
 	}
 
 	//JS needed until :has() parent selection is better supported in CSS
-	if (db.props.progressOptions !== 'none') {
-		section.progress = `<div class="${classRoot}_progress${progressBarClass}" ${sectionAttr}="${db.map.sectionProgress}">
+	if (params.options.progressOptions !== 'none') {
+		section.progress = `<div class="${classRoot}_progress${progressBarClass}" ${sectionAttr}="${params.strings.sectionProgress}">
 			${timeCurrent}
 			<div id="ap-progress" class="sr-text">Current Progress</div>
 			${progressBar}
@@ -123,11 +140,11 @@ function constructDefaultTemplate(configuration) {
 	}
 
 
-	if (isConfigured('gainSlider', db.props.gainOptions)) {	
+	if (params.functions.isConfigured('gainSlider', params.options.gainOptions)) {	
 		gainSlider = `<div 
 			class="slider slider--gain" 
 			tabindex="0" 
-			${controlAttr}="${db.map.fader}" 
+			${controlAttr}="${params.strings.gainSlider}" 
 			role="slider"
 			aria-valuemin="0"
 			aria-valuemax="1"
@@ -135,29 +152,29 @@ function constructDefaultTemplate(configuration) {
 			aria-valuetext="gain 100%"
 			aria-labelledby="ap-gain">
 				<div class="slider_track">
-					<div class="slider_progress" ${statusAttr}="${db.map.faderCurrent}" style="transform: scaleX(1)"></div>
-					<div class="slider_handle" ${statusAttr}="${db.map.faderHandle}"></div>
+					<div class="slider_progress" ${statusAttr}="${params.strings.gainCurrent}" style="transform: scaleX(1)"></div>
+					<div class="slider_handle" ${statusAttr}="${params.strings.gainHandle}"></div>
 				</div>
 			</div>`;
 	}
 	
 
-	if (isConfigured('gainControl', db.props.gainOptions)) {
-		gainControl = `<button ${controlAttr}="${db.map.gain}" aria-labeledby="ap-mute">
+	if (params.functions.isConfigured('gainControl', params.options.gainOptions)) {
+		gainControl = `<button ${controlAttr}="${params.strings.gain}" aria-labeledby="ap-mute">
 			<div id="ap-mute" class="sr-text" data-ap-label="gain-label">Mute</div>
-			${db.symbols.gain}
+			${params.symbols.gain}
 		</button>`;
 	}
 
 
-	section.gain = `<div class="${classRoot}_gain" ${sectionAttr}="${db.map.sectionGain}">
+	section.gain = `<div class="${classRoot}_gain" ${sectionAttr}="${params.strings.sectionGain}">
 		<div id="ap-gain" class="sr-text">Current gain</div>
 		${gainControl}
 		${gainSlider}
 	</div>`;
 
 
-	breakpoints[configuration].forEach((slice) => {
+	breakpoints[params.targetLayout].forEach((slice) => {
 		sectionOrder.push(section[slice]);
 	});
 

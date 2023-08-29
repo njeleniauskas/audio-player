@@ -4,12 +4,12 @@ import updateSliderNodeValues from '../utilities/update-slider-node-values.js';
 import isConfigured from '../utilities/is-configured.js';
 
 function updateGainNodes() {
-	if (isConfigured('gainSlider', db.props.gainOptions)) {
-		updateSliderNode('fader', db.data.gain.current);
+	if (isConfigured('gainSlider', db.config.options.gainOptions)) {
+		updateSliderNode('gain', db.data.gain.current);
 		updateSliderNodeValues('gain');
 	}
 
-	if (isConfigured('gainControl', db.props.gainOptions)) {
+	if (isConfigured('gainControl', db.config.options.gainOptions)) {
 		updateGainStatus();
 		updateGainSymbol();
 	}

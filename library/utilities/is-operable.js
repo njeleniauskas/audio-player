@@ -35,7 +35,9 @@ function isOperable(scope, event) {
 		}
 
 		case 'media-track-previous': {
-			if (event.key === 'MediaTrackPrevious') {
+			const track = db.data.buffer.track;
+
+			if (event.key === 'MediaTrackPrevious' && track !== 0) {
 				return true;
 			}
 
@@ -43,7 +45,10 @@ function isOperable(scope, event) {
 		}
 
 		case 'media-track-next': {
-			if (event.key === 'MediaTrackNext') {
+			const track = db.data.buffer.track;
+			const totalTracks = db.data.tracks - 1;
+
+			if (event.key === 'MediaTrackNext' && track !== totalTracks) {
 				return true;
 			}
 

@@ -13,32 +13,33 @@ import debounce from '../utilities/debounce.js';
 function assignEventListeners() {
 	addPlayStateEvents();
 
-	if (db.props.template.totalBreakpoints > 1) {
+	//single-use checker
+	if (Object.keys(db.config.breakpoints).length > 1) {
 		addPlayerReflowEvents();
 	}
 
-	if (isConfigured('stepControls', db.props.stepControls)) {
+	if (isConfigured('stepControls', db.config.options.stepControls)) {
 		addStepControlEvents();
 	}
 
-	if (isConfigured('progressSlider', db.props.progressOptions) || 
-		isConfigured('gainSlider', db.props.gainOptions)) {
+	if (isConfigured('progressSlider', db.config.options.progressOptions) || 
+		isConfigured('gainSlider', db.config.options.gainOptions)) {
 		addGlobalPointerEvents();
 	}
 
-	if (isConfigured('progressSlider', db.props.progressOptions)) {
+	if (isConfigured('progressSlider', db.config.options.progressOptions)) {
 		addProgressEvents();
 	}
 
-	if (isConfigured('gainSlider', db.props.gainOptions)) {
+	if (isConfigured('gainSlider', db.config.options.gainOptions)) {
 		addGainEvents('slider');
 	}
 
-	if (isConfigured('gainControl', db.props.gainOptions)) {
+	if (isConfigured('gainControl', db.config.options.gainOptions)) {
 		addGainEvents('control');
 	}
 
-	if (isConfigured('gainKey', db.props.gainOptions)) {
+	if (isConfigured('gainKey', db.config.options.gainOptions)) {
 		addGainEvents('key');
 	}
 }
@@ -46,15 +47,28 @@ function assignEventListeners() {
 
 function addPlayerReflowEvents() {
 	window.addEventListener('resize', debounce(() => {
+		let isActiveControl = document.activeElement.hasAttribute(db.props.strings.control);
+		let startingConfig;
+		let endingConfig;
+
 		db.status.viewportWidth = window.innerWidth;
 
-		let startingConfig = db.status.playerConfig;
-		let endingConfig = getTargetPlayerConfiguration(db.status.viewportWidth);
+		if (isActiveControl) {
+			db.status.activeControlAttribute = document.activeElement.getAttribute(db.props.strings.control);
+		}
 
+		startingConfig = db.status.playerConfig;
+		endingConfig = getTargetPlayerConfiguration(db.status.viewportWidth);
+		
 		if (startingConfig !== endingConfig) {
 			updatePlayerLayout(endingConfig)
-				.then(() => {
-					db.status.playerConfig = endingConfig;
+			.then(() => {
+				if (isActiveControl) {
+					db.nodes.control[db.status.activeControlAttribute].focus();
+				}
+				
+				db.status.playerConfig = endingConfig;
+				db.status.activeControlAttribute = null;
 				});
 		}
 	}, 200));
@@ -89,6 +103,7 @@ function addStepControlEvents() {
 	});
 
 	window.addEventListener('keyup', (event) => {
+		//future behavior: if track is X seconds played, stop and restart (do not change)
 		if (isOperable('media-track-next', event)) {
 			changeTrack('next');
 		} else if (isOperable('media-track-previous', event)) {
@@ -109,15 +124,15 @@ function addGlobalPointerEvents() {
 			targetAttribute = event.target.getAttribute('data-ap-control');
 		}
 		
-		if (isValidNode && targetAttribute === 'fader') {
-			node = db.nodes.control[db.map.fader];
+		if (isValidNode && targetAttribute === 'gain') {
+			node = db.nodes.control[db.map.gainSlider];
 		}
 		
 		node.releasePointerCapture(id);
 
 		if (isValidNode && targetAttribute === 'progress') {
 			commitTime(db.data.pointer.lastX);
-		} else if (isValidNode && targetAttribute === 'fader') {
+		} else if (isValidNode && targetAttribute === 'gain') {
 			commitGain(db.data.pointer.lastX);
 		}
 	});
@@ -145,20 +160,20 @@ function addProgressEvents() {
 
 function addGainEvents(context) {
 	const gain = db.nodes.control[db.map.gain];
-	const fader = db.nodes.control[db.map.fader];
+	const gainSlider = db.nodes.control[db.map.gainSlider];
 	
 	if (context === 'slider') {
-		fader.addEventListener('pointerdown', (event) => {
+		gainSlider.addEventListener('pointerdown', (event) => {
 			//force pointer capture to capture the slider element
-			fader.setPointerCapture(event.pointerId);
+			gainSlider.setPointerCapture(event.pointerId);
 			
 			if (isOperable('gain-slider', event)) {
-				db.status.targetSlider = fader;
+				db.status.targetSlider = gainSlider;
 				observeGainSlider(event);
 			}
 		});
 
-		fader.addEventListener('keydown', (event) => {
+		gainSlider.addEventListener('keydown', (event) => {
 			if (isOperable('gain-nudge', event)) {
 				nudgeGain(event);
 			}

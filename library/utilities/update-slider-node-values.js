@@ -11,7 +11,7 @@ function updateSliderNodeValues(format) {
 	let textString;
 
 	if (format === 'gain') {
-		target = db.map.fader;
+		target = db.map.gainSlider;
 		currentValue = db.data.gain.current.toFixed(2);
 		maxValue = 1;
 		textString = formatVolume(db.data.gain.current);

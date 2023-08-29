@@ -2,7 +2,7 @@ import db from '../../config/data.js';
 
 //function designed to max-width setup; closest larger breakpoint wins
 function getTargetPlayerConfiguration(viewportWidth) {
-	const keys = Object.keys(db.props.template.breakpoints);
+	const keys = Object.keys(db.config.breakpoints);
 	let breakpoints = [];
 	let configuration;
 	
