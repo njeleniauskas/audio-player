@@ -12,10 +12,10 @@ const db = {
 	config: {
 		setup: 'full',
 		options: {
-			showMetadata: false,
-			stepControls: false,
-			progressOptions: 'slider',
-			gainOptions: 'none',
+			showMetadata: true,
+			stepControls: true,
+			progressOptions: 'both',
+			gainOptions: 'both',
 			loop: false
 		},
 		template: null,
