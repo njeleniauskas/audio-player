@@ -8,11 +8,13 @@
 	--ap-font-family: inherit;
 	--ap-border-size: 0.0625rem;
 
-	--ap-s-handle: 0.75rem;
 	--ap-s-slider: 1.5rem;
 	--ap-s-track: 0.25rem;
-	--ap-handle-top: calc(-0.375rem - 0.125rem);
-	--ap-handle-left: -0.375em;
+	--ap-s-handle-scale: 2;
+	--ap-s-handle: calc(var(--ap-s-track) + (var(--ap-s-track) * var(--ap-s-handle-scale)));
+	--ap-handle-top: calc(
+		(var(--ap-s-handle) * 0.5 * -1) - (var(--ap-s-track) *  0.5));
+	--ap-handle-left: calc((var(--ap-s-handle) * 0.5) * -1);
 
 	display: grid;
 	align-items: center;
