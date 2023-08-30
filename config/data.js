@@ -13,7 +13,7 @@ const db = {
 		setup: 'full',
 		options: {
 			showMetadata: true,
-			stepControls: true,
+			stepControls: false,
 			progressOptions: 'both',
 			gainOptions: 'both',
 			loop: false

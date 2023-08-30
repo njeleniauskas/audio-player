@@ -53,6 +53,10 @@ function configurePlayer(params) {
 				config.progressOptions !== undefined ? config.progressOptions : options.progressOptions;
 			options.gainOptions = 
 				config.gainOptions !== undefined ? config.gainOptions : options.gainOptions;
+
+			if (db.data.tracks === 1) {
+				db.config.options.stepControls = false;	
+			}
 		}
 	} else {
 		setPlayerByPreset('full');

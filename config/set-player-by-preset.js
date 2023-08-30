@@ -16,9 +16,12 @@ function setPlayerByPreset(preset) {
 		}
 		case 'basic': {
 			options.showMetadata = false;
-			options.stepControls = true;
 			options.progressOptions = 'slider';
 			options.gainOptions = 'button';
+
+			if (db.data.tracks > 1) {
+				options.stepControls = true;
+			}
 			break;
 		}
 		case 'minimal': {

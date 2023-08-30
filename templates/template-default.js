@@ -78,19 +78,15 @@ function constructDefaultTemplate(params) {
 	</button>`;
 
 
+	//stepControls only are valid if configured && tracks > 1
 	if (params.functions.isConfigured('stepControls', params.options.stepControls)) {
-		let nextStatus = ``;
-
-		if (params.totalTracks > 1) {
-			nextStatus = `aria-disabled="false"`;
-		}
+		let nextStatus = `aria-disabled="false"`;
 
 		section.previous = `
 			<button ${controlAttr}="${params.strings.previous}" ${sectionAttr}="${params.strings.sectionPrev}" aria-disabled="true" aria-labelledby="ap-previous">
 				<div id="ap-previous" class="sr-text">previousious Track</div>
 				${params.symbols.previous}
-			</button>
-		`;
+			</button>`;
 		section.next = `
 			<button ${controlAttr}="${params.strings.next}" ${sectionAttr}="${params.strings.sectionNext}" ${nextStatus} aria-labelledby="ap-next">
 				<div id="ap-next" class="sr-text">Next Track</div>
