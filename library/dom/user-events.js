@@ -9,6 +9,7 @@ import toggleGain from '../gain/events-toggle-gain.js';
 import isOperable from '../utilities/is-operable.js';
 import isConfigured from '../utilities/is-configured.js';
 import debounce from '../utilities/debounce.js';
+import isSliderFocused from '../utilities/is-slider-focused.js';
 
 function assignEventListeners() {
 	addPlayStateEvents();
@@ -25,6 +26,7 @@ function assignEventListeners() {
 	if (isConfigured('progressSlider', db.config.options.progressOptions) || 
 		isConfigured('gainSlider', db.config.options.gainOptions)) {
 		addGlobalPointerEvents();
+		addSliderSrollEvent();
 	}
 
 	if (isConfigured('progressSlider', db.config.options.progressOptions)) {
@@ -43,7 +45,6 @@ function assignEventListeners() {
 		addGainEvents('key');
 	}
 }
-
 
 function addPlayerReflowEvents() {
 	window.addEventListener('resize', debounce(() => {
@@ -134,6 +135,15 @@ function addGlobalPointerEvents() {
 			commitTime(db.data.pointer.lastX);
 		} else if (isValidNode && targetAttribute === 'gain') {
 			commitGain(db.data.pointer.lastX);
+		}
+	});
+}
+
+function addSliderSrollEvent() {
+	window.addEventListener('keydown', (event) => {
+		if (isSliderFocused(document.activeElement, db.props.strings.control) &&
+			event.key === ' ') {
+			event.preventDefault();
 		}
 	});
 }

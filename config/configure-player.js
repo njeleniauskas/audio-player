@@ -54,6 +54,10 @@ function configurePlayer(params) {
 			options.gainOptions = 
 				config.gainOptions !== undefined ? config.gainOptions : options.gainOptions;
 
+			if (db.data.tracks > 1 && config.stepControls === undefined) {
+				db.config.options.stepControls = true;
+			}
+
 			if (db.data.tracks === 1) {
 				db.config.options.stepControls = false;	
 			}
