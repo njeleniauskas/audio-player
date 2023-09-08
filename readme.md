@@ -1,8 +1,12 @@
 # Audio Player
-*Version 2.1 | Authored by Nik Jeleniauskas*
+A buffer-based audio application using the JavaScript Audio API and JS Modules.
 
----
-The following audio player is a flexible, buffer-based application that uses the Audio API, and is written in modern JavaScript.
+<br>
+
+![GitHub tag (with filter)](https://img.shields.io/github/v/tag/njeleniauskas/audio-player?color=27B17E)
+![Static Badge](https://img.shields.io/badge/Status-Stable-%2327B17E)
+![Static Badge](https://img.shields.io/badge/Language-JavaScript-%232C67BF)
+![Static Badge](https://img.shields.io/badge/License-MIT-%232C67BF)
 
 <br>
 
