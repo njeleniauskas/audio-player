@@ -1,8 +1,9 @@
 import db from '../../config/data.js';
+
 import trackComplete from './track-complete.js';
-import processGainToggle from '../gain/process-gain-toggle.js';
 import setupAudioBuffer from '../dsp/setup-audio-buffer.js';
 import setupGain from '../dsp/setup-gain.js';
+import processGainToggle from '../gain/process-gain-toggle.js';
 import playBuffer from '../playstate/play-buffer.js';
 
 async function processTimeChange(value) {

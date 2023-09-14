@@ -1,8 +1,10 @@
 import db from '../../config/data.js';
+
+import canProcessAudio from '../utilities/can-process-audio.js';
+
 import setAudioData from './set-audio-data.js';
 import updateInterface from './update-interface.js';
 import assessBufferStatus from './assess-buffer-status.js';
-import canProcessAudio from '../utilities/can-process-audio.js';
 import setupAudioBuffer from '../dsp/setup-audio-buffer.js';
 import setupGain from '../dsp/setup-gain.js';
 

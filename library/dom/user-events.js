@@ -1,15 +1,17 @@
 import db from '../../config/data.js';
-import changePlayState from '../playstate/events.js';
-import getTargetPlayerConfiguration from './get-target-player-configuration.js';
-import updatePlayerLayout from './update-player-layout.js';
-import changeTrack from '../track/events.js';
-import {observeTimeSlider, commitTime, nudgeTime} from '../progress/events-slider-progress.js';
-import {observeGainSlider, commitGain, nudgeGain} from '../gain/events-slider-gain.js';
-import toggleGain from '../gain/events-toggle-gain.js';
+
 import isOperable from '../utilities/is-operable.js';
 import isConfigured from '../utilities/is-configured.js';
 import debounce from '../utilities/debounce.js';
 import isSliderFocused from '../utilities/is-slider-focused.js';
+
+import getTargetPlayerConfiguration from './get-target-player-configuration.js';
+import updatePlayerLayout from './update-player-layout.js';
+import {observeGainSlider, commitGain, nudgeGain} from '../gain/events-slider-gain.js';
+import toggleGain from '../gain/events-toggle-gain.js';
+import changePlayState from '../playstate/events.js';
+import {observeTimeSlider, commitTime, nudgeTime} from '../progress/events-slider-progress.js';
+import changeTrack from '../track/events.js';
 
 function assignEventListeners() {
 	addPlayStateEvents();

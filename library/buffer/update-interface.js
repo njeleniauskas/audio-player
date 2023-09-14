@@ -1,8 +1,10 @@
 import db from '../../config/data.js';
-import updateMetadata from './update-metadata.js';
-import updateProgress from './update-progress.js';
+
 import updateSliderNode from '../utilities/update-slider-node.js';
 import isConfigured from '../utilities/is-configured.js';
+
+import updateMetadata from './update-metadata.js';
+import updateProgress from './update-progress.js';
 import updateStepControls from '../track/update-step-controls.js';
 
 function updateInterface() {

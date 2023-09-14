@@ -1,8 +1,9 @@
-/*
-	Debounce, v1.0
-	========================================
-	A function that when wrapped around another function will gate the response of that function based on a delay time.
+/**
+ * Delay running a function based on a given period of time.
+ * @param {function} callback - The function to delay.
+ * @param {number} delay - The delay window.
  */
+
 function debounce(callback, delay) {
 	let timer;
 

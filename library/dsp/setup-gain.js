@@ -1,4 +1,5 @@
 import db from '../../config/data.js';
+
 import scaleGainValue from '../gain/scale-gain-value.js';
 
 function setupGain() {

@@ -1,7 +1,9 @@
 import db from '../../config/data.js';
-import scaleGainValue from './scale-gain-value.js';
+
 import isWithinBoundary from '../utilities/is-within-boundary.js';
 import clampToNearestBoundary from '../utilities/clamp-to-nearest-boundary.js';
+
+import scaleGainValue from './scale-gain-value.js';
 
 /* Notes: setValueAtTime is required to prevent zipper noise/audio pops. The lower bound cannot 
  * be 0, as exponentialRamptoValueAtTime considers 0 to be a negative number. dsp.gain may be 

@@ -1,10 +1,12 @@
 import db from '../../config/data.js';
+
+import canProcessAudio from '../utilities/can-process-audio.js';
+import updateTrackMessage from '../utilities/update-track-message.js';
+
 import setNewTrack from './set-new-track.js';
 import processTargetBuffer from '../buffer/process-target-buffer.js';
-import canProcessAudio from '../utilities/can-process-audio.js';
-import playBuffer from '../playstate/play-buffer.js';
-import updateTrackMessage from '../utilities/update-track-message.js';
 import updateUIReadyState from '../buffer/update-ui-ready-state.js';
+import playBuffer from '../playstate/play-buffer.js';
 
 /* When changing tracks, a few things must occur. First, correctly processing
  * and gating the target buffer before audio operation is necessary. Second,

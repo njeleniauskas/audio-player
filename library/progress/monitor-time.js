@@ -1,7 +1,9 @@
 import db from '../../config/data.js';
+
+import getElapsedTime from '../utilities/get-elapsed-time.js';
+
 import updateProgressNodes from './update-progress-nodes.js';
 import trackComplete from './track-complete.js';
-import getElapsedTime from '../utilities/get-elapsed-time.js';
 
 function monitorTime() {
 	const interval = 100;

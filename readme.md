@@ -1,5 +1,5 @@
 # Audio Player
-A buffer-based audio application using the JavaScript Audio API and JS Modules.
+A buffer-based audio application using the Web Audio API and JS Modules.
 
 <br>
 
@@ -325,6 +325,7 @@ In addition, it only supports iOS13 macOS 10.15 due to pointer events and `touch
 
 ## Roadmap
 Here are a few items that are on my radar to explore or fix in the future:
+- add JSDoc to functions.
 - Add a large step to slider nudging.
 - Create more flexible metadata loading and display.
 - Explore Media Session API support for broader control support.

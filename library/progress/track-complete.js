@@ -1,6 +1,7 @@
 import db from '../../config/data.js';
-import changeTrack from '../track/events.js';
+
 import resetPlayer from '../dsp/reset-player.js';
+import changeTrack from '../track/events.js';
 
 function trackComplete() {
 	if (db.status.targetBuffer === db.data.tracks - 1) {

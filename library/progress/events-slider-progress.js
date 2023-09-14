@@ -1,10 +1,12 @@
 import db from '../../config/data.js';
-import updateProgressNodes from './update-progress-nodes.js';
-import processTimeChange from './process-time-change.js';
+
 import getSliderValue from '../utilities/get-slider-value.js';
 import setSliderData from '../utilities/set-slider-data.js';
 import canProcessAudio from '../utilities/can-process-audio.js';
-import valueInArray from '../utilities/value-in-array.js';
+import itemInArray from '../utilities/item-in-array.js';
+
+import updateProgressNodes from './update-progress-nodes.js';
+import processTimeChange from './process-time-change.js';
 
 /* because of the nature of progress changes, this function ensures that any
  * document selection is cleared before a progress change occurs. This
@@ -69,7 +71,7 @@ function nudgeTime(event) {
 	let rawValue;
 	let state = db.dsp.context.state;
 	
-	if (valueInArray(['ArrowLeft', 'Home'], event.key)) {
+	if (itemInArray(['ArrowLeft', 'Home'], event.key)) {
 		direction = 'back';
 	}
 

@@ -1,7 +1,9 @@
 import db from './data.js';
+
+import itemInArray from '../library/utilities/item-in-array.js';
+
 import getPlayerTemplateArgs from './get-player-template-args.js';
 import setPlayerByPreset from './set-player-by-preset.js';
-import valueInArray from '../library/utilities/value-in-array.js';
 
 function configurePlayer(params) {
 	const className = '.'.concat(params.container);
@@ -35,7 +37,7 @@ function configurePlayer(params) {
 	if (params.configuration !== undefined) {
 		let isString = (typeof params.configuration === 'string');
 		let isObject = (typeof params.configuration === 'object');
-		let isValidString = valueInArray(['minimal', 'basic', 'full'], params.configuration);
+		let isValidString = itemInArray(['minimal', 'basic', 'full'], params.configuration);
 
 		if (isString && isValidString) {
 			setPlayerByPreset(params.configuration);

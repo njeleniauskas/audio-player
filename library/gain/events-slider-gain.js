@@ -1,12 +1,13 @@
 import db from '../../config/data.js';
+
 import canProcessAudio from '../utilities/can-process-audio.js';
 import setSliderData from '../utilities/set-slider-data.js';
-import valueInArray from '../utilities/value-in-array.js';
+import itemInArray from '../utilities/item-in-array.js';
 import getSliderValue from '../utilities/get-slider-value.js';
+
 import setAndUpdateGain from './set-and-update-gain.js';
 import processGainStep from './process-gain-step.js';
 import updateGainNodes from './update-gain-nodes.js';
-import scaleGainValue from './scale-gain-value.js';
 
 function observeGainSlider(event) {	
 	let events =  ['pointermove', 'pointerup'];
@@ -62,7 +63,7 @@ function nudgeGain(event) {
 	let value;
 	let startValue = Number(db.nodes.control[db.map.gainSlider].getAttribute('aria-valuenow'));
 
-	if (valueInArray(['ArrowLeft', 'ArrowDown', 'Home'], event.key)) {
+	if (itemInArray(['ArrowLeft', 'ArrowDown', 'Home'], event.key)) {
 		direction = 'back';
 	}
 

@@ -1,5 +1,7 @@
 import db from '../../config/data.js';
+
 import updateSliderNode from '../utilities/update-slider-node.js';
+
 import updateTimeNode from '../progress/update-time-node.js';
 
 function updateProgress(context) {

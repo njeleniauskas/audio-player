@@ -1,4 +1,5 @@
 import db from '../../config/data.js';
+
 import getPlayerTemplateArgs from '../../config/get-player-template-args.js';
 import constructDefaultTemplate from '../../templates/template-default.js';
 

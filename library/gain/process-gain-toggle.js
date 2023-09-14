@@ -1,5 +1,4 @@
 import db from '../../config/data.js';
-import scaleGainValue from './scale-gain-value.js';
 
 /* This function serves two purposes. It both processes user-generated gain
  * changes, as well as changes from the play state. When the scope is the

@@ -1,16 +1,18 @@
 import db from '../../config/data.js';
-import setDSPState from './set-dsp-state.js';
-import updatePlayState from './update-play-state.js';
-import playBuffer from './play-buffer.js';
-import pauseBuffer from './pause-buffer.js';
+
 import awaitWebkitUnlock from '../utilities/await-webkit-unlock.js';
 import canProcessAudio from '../utilities/can-process-audio.js';
-import setupAudioContext from '../dsp/setup-audio-context.js';
+import updateTrackMessage from '../utilities/update-track-message.js';
+
+import pauseBuffer from './pause-buffer.js';
+import playBuffer from './play-buffer.js';
+import setDSPState from './set-dsp-state.js';
+import updatePlayState from './update-play-state.js';
 import processTargetBuffer from '../buffer/process-target-buffer.js';
 import setupAudioBuffer from '../dsp/setup-audio-buffer.js';
+import setupAudioContext from '../dsp/setup-audio-context.js';
 import setupGain from '../dsp/setup-gain.js';
 import processGainToggle from '../gain/process-gain-toggle.js';
-import updateTrackMessage from '../utilities/update-track-message.js';
 
 /* Due to browser autoplay policies, a user must interact with the page before
  * an audio context can be invoked. Therefore, on a first run, this function

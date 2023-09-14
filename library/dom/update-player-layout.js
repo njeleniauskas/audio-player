@@ -1,5 +1,4 @@
 import db from "../../config/data.js";
-import valueInArray from "../utilities/value-in-array.js";
 
 async function updatePlayerLayout(breakpoint) {
 	const player = db.nodes.player;

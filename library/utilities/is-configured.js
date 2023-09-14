@@ -1,4 +1,4 @@
-import valueInArray from "./value-in-array.js";
+import itemInArray from "./item-in-array.js";
 
 //is the application function configured
 function isConfigured(incomingKey, incomingValue) {
@@ -24,7 +24,7 @@ function isConfigured(incomingKey, incomingValue) {
 			'gainKey': ['slider', 'button', 'both']
 		};
 		const array = options[key];
-		let result = valueInArray(array, value);
+		let result = itemInArray(array, value);
 	
 		return result;
 	} catch (error) {

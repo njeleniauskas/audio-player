@@ -1,9 +1,10 @@
 import db from '../../config/data.js';
-import deployFragment from './deploy-fragment.js';
-//import gatherNodes from './gather-nodes.js';
-import assignEventListeners from './user-events.js';
+
 import getNodesForObjectCollection from '../utilities/get-nodes-for-object-collection.js';
 import getNodesForCollection from '../utilities/get-nodes-for-collection.js';
+
+import deployFragment from './deploy-fragment.js';
+import assignEventListeners from './user-events.js';
 
 /* This function returns a promise so that the first buffer process does not
  * occur until the interface fully exists on the DOM .
