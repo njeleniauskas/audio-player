@@ -2,7 +2,7 @@ import sortNumberArray from "./sort-number-array.js";
 
 function clampToNearestBoundary(range, value) {
 	let result = Number;
-	let boundaries = sortNumberArray(range);
+	let boundaries = sortNumberArray('ascending', range);
 
 	if (value < boundaries[0]) {
 		result = boundaries[0];
