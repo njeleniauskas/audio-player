@@ -145,7 +145,7 @@ function constructDefaultTemplate(params) {
 			aria-valuemin="0"
 			aria-valuemax="1"
 			aria-valuenow="1"
-			aria-valuetext="gain 100%"
+			aria-valuetext="Volume 100%"
 			aria-labelledby="ap-gain">
 				<div class="slider_track">
 					<div class="slider_progress" ${statusAttr}="${params.strings.gainCurrent}" style="transform: scaleX(1)"></div>
@@ -164,7 +164,7 @@ function constructDefaultTemplate(params) {
 
 
 	section.gain = `<div class="${classRoot}_gain" ${sectionAttr}="${params.strings.sectionGain}">
-		<div id="ap-gain" class="sr-text">Current gain</div>
+		<div id="ap-gain" class="sr-text">Current Volume</div>
 		${gainControl}
 		${gainSlider}
 	</div>`;
