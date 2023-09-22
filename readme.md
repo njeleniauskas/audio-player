@@ -327,6 +327,7 @@ In addition, it only supports iOS13 macOS 10.15 due to pointer events and `touch
 Here are a few items that are on my radar to explore or fix in the future:
 - add JSDoc to functions.
 - Add a large step to slider nudging.
+- Add reset track to playhead 0 on Home key if more than 3s in.
 - Create more flexible metadata loading and display.
 - Explore Media Session API support for broader control support.
 - update readme to include 'build your own' details (data-attrs as hints to important nodes).
