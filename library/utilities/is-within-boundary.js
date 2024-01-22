@@ -2,7 +2,7 @@ import sortNumberArray from "./sort-number-array.js";
 
 function isWithinBoundary(range, value) {
 	let result = false;
-	let boundaries = sortNumberArray('ascending', range);
+	let boundaries = sortNumberArray(range, 'ascending');
 
 	if (isNaN(value)) {
 		return result;

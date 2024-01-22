@@ -1,11 +1,11 @@
 /**
  * Sort an array of numbers in a given direction.
- * @param {string} direction - The sort direction: ascending, descending.
  * @param {array} array - The array to sort.
+ * @param {string} direction - The sort direction: ascending, descending.
  * @returns {array}
  */
 
-function sortNumberArray(direction, array) {
+function sortNumberArray(array, direction) {
 	let result = [];
 
 	if (direction !== 'ascending' && direction !== 'descending') {
